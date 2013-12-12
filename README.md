@@ -2,14 +2,14 @@
 
 > Get a head start on your [CanJS v2.x](https://github.com/bitovi/canjs/) project.
 
-### How it can help you:
+_How it can help you:_
 * Get started quickly with Development and Production environment "shell" files
 * Avoid feeling overwhelmed with a folder structure that's simple and light
 * Save time with compilers and optimizers that do not require the use of a command prompt
 
 ## Getting Started
 
-This plugin requires NodeJS `~0.8` and __currently only works on a Mac__.
+This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Mac**.
 
 This is the initial release, with an intent on listening to your feedback.
 
@@ -24,13 +24,21 @@ This is the initial release, with an intent on listening to your feedback.
 * [LESS](http://lesscss.org/) + [3L](http://mateuszkocz.github.io/3l/)
 * [RequireJS](http://requirejs.org/) + [Almond](https://github.com/jrburke/almond)
 * js/css minifiers and gif/png/jpg/svg optimizers
+* Apache .htaccess files that enable `can.route.pushstate` use on all relative 404 routes
 
 ...and:
 * [Grunt](http://gruntjs.com/) (no need to install it)
 
 
 ## FAQ
-_(Nothing yet)_
+**How do I disable the automatic backup when using "minify-media"?**
+Open up `tools/gruntfiles/minify-media.js` and set `makeBackup` to `false`.
+
+**Why not just set the <script> and <link> references to local?**
+You could, but then the 404 routes to your index file will stop working.
+
+**Why route 404s to the index file?**
+Because `can.route.pushstate` can figure out where it is in relation to its `root`. CanJS can handle most of your application from within the browser alone.
 
 ## Release History
-_(Nothing yet)_
+0.1.0 initial "feedback" release
