@@ -11,13 +11,15 @@ This is the initial release, with an intent on listening to your feedback.
 ### I have plans to:
 * create a scaffolder
 * support Windows and \*nix
-* remove the need to _install_ NodeJS
+* avoid having to _install_ NodeJS, as I have done with Grunt
 
 ### It currently comes with:
-* [CanJS](http://canjs.com/)
+* [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
 * [jQuery](http://jquery.com/)
 * [LESS](http://lesscss.org/) + [3L](http://mateuszkocz.github.io/3l/)
-* [RequireJS](http://requirejs.org/) + [Almond](http://github.com/jrburke/almond)
+* [RequireJS](http://requirejs.org/) + [Almond](https://github.com/jrburke/almond)
+* js/css minifiers and gif/png/jpg/svg optimizers
+* [Grunt](http://gruntjs.com/)
 
 ## FAQ
 _(Nothing yet)_
