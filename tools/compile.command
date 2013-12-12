@@ -1,6 +1,3 @@
-#cd `dirname $0`
-
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "$DIR"
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 node -e "require('grunt').cli({ base:'./', gruntfile:'gruntfiles/compile.js' })"

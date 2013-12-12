@@ -9,7 +9,7 @@ require.config(
 	shim:
 	{
 		// Non-AMD scripts
-		
+		//"assets/js/jquery.plugin":		["jquery"],
 	}
 });
 

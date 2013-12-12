@@ -2,7 +2,8 @@ define(
 [
 	"can",
 	
-	// anything else
+	// Anything else
+	//"components/something/something",
 ],
 function()
 {
