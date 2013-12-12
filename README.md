@@ -1,6 +1,11 @@
 # can-boilerplate
 
-> Start your [CanJS v2.x](https://github.com/bitovi/canjs/) projects faster and easier.
+> Get a head start on your [CanJS v2.x](https://github.com/bitovi/canjs/) project.
+
+### How it can help you:
+* Get started quickly with Development and Production environment "shell" files
+* Avoid feeling overwhelmed with a folder structure that's simple and light
+* Save time with compilers and optimizers that do not require the use of a command prompt
 
 ## Getting Started
 
@@ -12,11 +17,6 @@ This is the initial release, with an intent on listening to your feedback.
 * create a scaffolder
 * support Windows and \*nix
 * avoid having to _install_ NodeJS, as I have done with Grunt
-
-### How all of this helps you:
-* Get started quickly with Development and Production environment "shell" files
-* Avoid feeling overwhelmed with a folder structure that's simple and light
-* Save time with compilers and optimizers that do not require the use of a command prompt
 
 ### It currently comes packed with:
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
