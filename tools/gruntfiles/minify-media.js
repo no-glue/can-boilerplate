@@ -1,7 +1,7 @@
 module.exports = function(grunt)
 {
 	// Makes a backup folder of /assets/media/
-	var makeBackup = false;
+	var makeBackup = true;
 	
 	
 	
