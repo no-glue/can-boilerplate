@@ -7,6 +7,7 @@ _How it can help you:_
 * Avoid feeling overwhelmed with a folder structure that's simple and light
 * Save time with compilers and optimizers that do not require the use of a command prompt
 
+
 ## Getting Started
 
 This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Mac**.
@@ -30,6 +31,16 @@ This is the initial release, with an intent on listening to your feedback.
 * [Grunt](http://gruntjs.com/) (no need to install it)
 
 
+## Folder Structure
+**assets/css/**: LESS/CSS libraries compiled into production CSS file (eg. "/bin/app.css"). Folder _excluded_ in production build.
+
+**assets/js/**: JS libraries compiled into production JS file (eg. "/bin/app.js"). Folder _excluded_ in production build.
+
+**assets/media/*/**: media referenced from your JS and/or CSS. Folder included in production build.
+
+**assets/media/*-embedded/**: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
+
+
 ## FAQ
 #### How do I disable the automatic backup when using "minify-media"?
 Open up `tools/gruntfiles/minify-media.js` and set `makeBackup` to `false`.
@@ -45,6 +56,7 @@ You don't have to rely on your webserver to do it for you. Read up on [serving p
 
 #### How can I get the *.command files to open?
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
+
 
 ## Release History
 0.1.0 initial "feedback" release
