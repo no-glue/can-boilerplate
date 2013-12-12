@@ -4,12 +4,12 @@
 
 ## Getting Started
 
-This plugin requires NodeJS `~0.8` and **currently only works on a Mac**.
+This plugin requires NodeJS `~0.8` and __currently only works on a Mac__.
 
 This is the initial release, with an intent on listening to your feedback. I have plans to:
-[ ] create a scaffolder
-[ ] support Windows and \*nix
-[ ] remove the need to _install_ NodeJS
+* create a scaffolder
+* support Windows and \*nix
+* remove the need to _install_ NodeJS
 
 ## FAQ
 _(Nothing yet)_
