@@ -15,7 +15,7 @@ This is the initial release, with an intent on listening to your feedback.
 
 ### How all of this helps you:
 * Get started quickly with Development and Production environment "shell" files
-* Avoid feeling overwhelmed with folder structure that's simple and light
+* Avoid feeling overwhelmed with a folder structure that's simple and light
 * Save time with compilers and optimizers that do not require the use of a command prompt
 
 ### It currently comes packed with:
@@ -24,6 +24,7 @@ This is the initial release, with an intent on listening to your feedback.
 * [LESS](http://lesscss.org/) + [3L](http://mateuszkocz.github.io/3l/)
 * [RequireJS](http://requirejs.org/) + [Almond](https://github.com/jrburke/almond)
 * js/css minifiers and gif/png/jpg/svg optimizers
+
 ...and:
 * [Grunt](http://gruntjs.com/) (no need to install it)
 
