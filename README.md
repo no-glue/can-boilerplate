@@ -32,13 +32,13 @@ This is the initial release, with an intent on listening to your feedback.
 
 
 ## Folder Structure
-**assets/css/**: LESS/CSS libraries compiled into production CSS file (eg. "/bin/app.css"). Folder _excluded_ in production build.
+`assets/css/`: LESS/CSS libraries compiled into production CSS file (eg. "/bin/app.css"). Folder _excluded_ in production build.
 
-**assets/js/**: JS libraries compiled into production JS file (eg. "/bin/app.js"). Folder _excluded_ in production build.
+`assets/js/`: JS libraries compiled into production JS file (eg. "/bin/app.js"). Folder _excluded_ in production build.
 
-**assets/media/*/**: media referenced from your JS and/or CSS. Folder included in production build.
+`assets/media/*/`: media referenced from your JS and/or CSS. Folder included in production build.
 
-**assets/media/*-embedded/**: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
+`assets/media/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
 
 
 ## FAQ
@@ -56,6 +56,15 @@ You don't have to rely on your webserver to do it for you. Read up on [serving p
 
 #### How can I get the *.command files to open?
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
+
+#### What changes must I make when moving my production build?
+* In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+* Run the compiler in `tools/`
+* Move files from `bin/` to their destination
+
+#### What changes must I make when moving my entire project folder?
+* In `src/index.html`, update the `<data>`, `<link>` and `<script>` tags
+* In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
 
 
 ## Release History
