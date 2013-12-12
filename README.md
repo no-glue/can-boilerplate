@@ -43,5 +43,8 @@ Because `can.route.pushstate` can figure out where it is in relation to its `roo
 #### Why gzip the *.js and *.css files upon compiling?
 You don't have to rely on your webserver to do it for you. Read up on [serving pre-compressed files](http://blog.alien109.com/2009/03/17/gzip-your-javascript/).
 
+#### How can I get the *.command files to open?
+You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
+
 ## Release History
 0.1.0 initial "feedback" release
