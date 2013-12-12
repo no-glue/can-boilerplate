@@ -14,9 +14,9 @@ This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only wo
 This is the initial release, with an intent on listening to your feedback.
 
 ### I have plans to:
-* Create a scaffolder
-* Support Windows and \*nix
-* Avoid having to _install_ NodeJS, as I have done with Grunt
+* create a scaffolder
+* add support for Windows and \*nix
+* avoid having to _install_ NodeJS, as I have done with Grunt
 
 ### It currently comes packed with:
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
@@ -31,13 +31,13 @@ This is the initial release, with an intent on listening to your feedback.
 
 
 ## FAQ
-###### How do I disable the automatic backup when using "minify-media"?
+##### How do I disable the automatic backup when using "minify-media"?
 Open up `tools/gruntfiles/minify-media.js` and set `makeBackup` to `false`.
 
-###### Why not just set the \<script> and \<link> references to local?
+##### Why not just set the \<script> and \<link> references to local?
 You could, but then the 404 routes to your index file will stop working.
 
-###### Why route 404s to the index file?**
+##### Why route 404s to the index file?
 Because `can.route.pushstate` can figure out where it is in relation to its `root`. CanJS can handle most of your application from within the browser alone.
 
 ## Release History
