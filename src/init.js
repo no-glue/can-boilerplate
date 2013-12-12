@@ -21,7 +21,7 @@ require(
 	//"can/construct/proxy",
 	"can/route/pushstate",
 	
-	"templates",	// defined in HTML file -- must be above any components
+	"templates",	// must be above any components
 	
 	"components/app/app"
 ],
