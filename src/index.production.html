@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<title>can-boilerplate</title>
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	</head>
+	<body>
+		<div class="preloader">
+			<noscript>JavaScript must be enabled in order to continue.</noscript>
+		</div>
+		
+		<data id="appRoot" value="/bin/"></data>
+		
+		<script>
+		var preloader = setTimeout(function()
+		{
+			document.querySelector(".preloader").innerHTML = "Loading…";
+		}, 4000);
+		</script>
+		
+		<link rel="stylesheet" href="/bin/app.css"/>
+		<script src="/bin/app.js"></script>
+	</body>
+</html>

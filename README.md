@@ -31,14 +31,17 @@ This is the initial release, with an intent on listening to your feedback.
 
 
 ## FAQ
-##### How do I disable the automatic backup when using "minify-media"?
+#### How do I disable the automatic backup when using "minify-media"?
 Open up `tools/gruntfiles/minify-media.js` and set `makeBackup` to `false`.
 
-##### Why not just set the \<script> and \<link> references to local?
+#### Why not just set the \<script> and \<link> references to local?
 You could, but then the 404 routes to your index file will stop working.
 
-##### Why route 404s to the index file?
+#### Why route 404s to the index file?
 Because `can.route.pushstate` can figure out where it is in relation to its `root`. CanJS can handle most of your application from within the browser alone.
+
+#### Why gzip the *.js and *.css files upon compiling?
+You don't have to rely on your webserver to do it for you. Read up on [serving pre-compressed files](http://blog.alien109.com/2009/03/17/gzip-your-javascript/).
 
 ## Release History
 0.1.0 initial "feedback" release
