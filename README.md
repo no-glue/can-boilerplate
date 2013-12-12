@@ -14,9 +14,9 @@ This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only wo
 This is the initial release, with an intent on listening to your feedback.
 
 ### I have plans to:
-* create a scaffolder
-* support Windows and \*nix
-* avoid having to _install_ NodeJS, as I have done with Grunt
+* Create a scaffolder
+* Support Windows and \*nix
+* Avoid having to _install_ NodeJS, as I have done with Grunt
 
 ### It currently comes packed with:
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
