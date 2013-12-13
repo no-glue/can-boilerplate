@@ -32,17 +32,17 @@ This is the initial release, with an intent on listening to your feedback.
 
 
 ## Folder Structure
-`assets/css/`: LESS/CSS libraries compiled into production CSS file (eg. "/bin/app.css"). Folder _excluded_ in production build.
+`src/assets/css/`: LESS/CSS libraries compiled into production CSS file (eg. "/bin/app.css"). Folder _excluded_ in production build.
 
-`assets/js/`: JS libraries compiled into production JS file (eg. "/bin/app.js"). Folder _excluded_ in production build.
+`src/assets/js/`: JS libraries compiled into production JS file (eg. "/bin/app.js"). Folder _excluded_ in production build.
 
-`assets/media/*/`: media referenced from your JS and/or CSS. Folder included in production build.
+`src/assets/media/*/`: media referenced from your JS and/or CSS. Folder included in production build.
 
-`assets/media/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
+`src/assets/media/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
 
 _Any_ empty folder will be excluded from the production build.
 
-_Any_ empty files in `assets/` wll be excluded from the production build.
+_Any_ empty files in `src/assets/` wll be excluded from the production build.
 
 
 ## FAQ
