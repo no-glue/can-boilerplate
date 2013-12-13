@@ -40,6 +40,10 @@ This is the initial release, with an intent on listening to your feedback.
 
 `assets/media/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
 
+_Any_ empty folder will be excluded from the production build.
+
+_Any_ empty files in `assets/` wll be excluded from the production build.
+
 
 ## FAQ
 #### How do I disable the automatic backup when using "minify-media"?
