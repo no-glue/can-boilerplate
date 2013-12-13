@@ -1,10 +1,10 @@
+var cheerio = require("cheerio");
+var fs = require("fs");
+
+
+
 module.exports = function(grunt)
 {
-	var cheerio = require("cheerio");
-	var fs = require("fs");
-	
-	
-	
 	// Path for LESS media references (so that they work with all routes)
 	var appRoot = cheerio( fs.readFileSync("../src/index.production.html", "utf8") ).find("#appRoot").attr("value");
 	
@@ -42,17 +42,28 @@ module.exports = function(grunt)
 			"compiled templates file":
 			{
 				src: ["../bin/app.templates.js"]
-			},
-			"empty asset folders":
+			}
+		},
+		
+		
+		
+		cleanempty:
+		{
+			options:
 			{
-				src: ["../bin/assets/**/*"],
-				
-				filter: function(filepath)
+				force: true
+			},
+			"assets":
+			{
+				src: ["../bin/assets/**/*"]
+			},
+			"folders in app root":
+			{
+				options:
 				{
-					if (!grunt.file.isDir(filepath)) return false;
-					
-					return (fs.readdirSync(filepath).length === 0);
-				}
+					files: false	// in case something's empty, easier to debug
+				},
+				src: ["../bin/**/*"]
 			}
 		},
 		
@@ -83,7 +94,7 @@ module.exports = function(grunt)
 			{
 				files:
 				[
-					{ cwd:"../src/assets/", src:["**","!css/**","!js/**","!media/**"], dest:"../bin/assets/", expand:true },
+					{ cwd:"../src/assets/", src:["*", "**","!css/**","!js/**","!media/**"], dest:"../bin/assets/", expand:true },
 					
 					{ cwd:"../src/assets/media/", src:["**","!*-embedded/**"], dest:"../bin/assets/media/", expand:true }
 				]
@@ -190,6 +201,7 @@ module.exports = function(grunt)
 	/*grunt.loadNpmTasks(
 	[
 		"cancompile",
+		"grunt-cleanempty",
 		"grunt-contrib-clean",
 		"grunt-contrib-compress",
 		"grunt-contrib-copy",
@@ -199,6 +211,7 @@ module.exports = function(grunt)
 		"grunt-contrib-uglify"
 	]);*/
 	grunt.loadNpmTasks("cancompile");
+	grunt.loadNpmTasks("grunt-cleanempty");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-contrib-copy");
@@ -218,7 +231,8 @@ module.exports = function(grunt)
 		"cancompile",	// compile templates
 		"requirejs",	// compile app and merge with compiled templates
 		"uglify",		// minifies smaller than requirejs and with far less configuring, plus has a banner option
-		"clean",		// remove compiled templates file and empty assets
+		"clean",		// remove compiled templates file
+		"cleanempty",	// remove empty assets and folders
 		
 		"compress"		// gzip css and js
 	]);
