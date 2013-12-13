@@ -72,5 +72,6 @@ You just need to [set ownership of the file to yourself](https://discussions.app
 
 
 ## Release History
-* 0.2.0 included [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty)
+* 0.2.1 updated to [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.2
+* 0.2.0 included [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.1
 * 0.1.0 initial "feedback" release

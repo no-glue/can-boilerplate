@@ -1,7 +1,7 @@
 {
   "name": "can-boilerplate",
   "description": "Get a head start on your CanJS project.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/stevenvachon/can-boilerplate",
   "author": {
     "name": "Steven Vachon",
