@@ -46,29 +46,29 @@ _Any_ empty files in `src/assets/` wll be excluded from the production build.
 
 
 ## FAQ
-#### How do I disable the automatic backup when using "minify-media"?
+1. **How do I disable the automatic backup when using "minify-media"?**  
 Open up `tools/gruntfiles/minify-media.js` and set `makeBackup` to `false`.
 
-#### Why not just set the \<script> and \<link> references to relative?
+2. **Why not just set the \<script> and \<link> references to relative?**  
 You could, but then the 404 routes to your index file will stop working.
 
-#### Why route 404s to the index file?
+3. **Why route 404s to the index file?**  
 Because `can.route.pushstate` can figure out where it is in relation to its `root`. CanJS can handle most of your application from within the browser alone.
 
-#### Why gzip the *.js and *.css files upon compiling?
+4. **Why gzip the *.js and *.css files upon compiling?**  
 You don't have to rely on your webserver to do it for you. Read up on [serving pre-compressed files](http://blog.alien109.com/2009/03/17/gzip-your-javascript/).
 
-#### How can I get the *.command files to open?
+5. **How can I get the *.command files to open?**  
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
 
-#### What changes must I make when moving my production build?
-1. In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
-2. Run the compiler in `tools/`
-3. Move files from `bin/` to their destination
+6. **What changes must I make when moving my production build?**  
+  * In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+  * Run the compiler in `tools/`
+  * Move files from `bin/` to their destination
 
-#### What changes must I make when moving my entire project folder?
-1. In `src/index.html`, update the `<data>`, `<link>` and `<script>` tags
-2. In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+7. **What changes must I make when moving my entire project folder?**  
+  * In `src/index.html`, update the `<data>`, `<link>` and `<script>` tags
+  * In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
 
 
 ## Release History
