@@ -58,15 +58,15 @@ You don't have to rely on your webserver to do it for you. Read up on [serving p
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
 
 #### What changes must I make when moving my production build?
-* In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
-* Run the compiler in `tools/`
-* Move files from `bin/` to their destination
+1. In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+2. Run the compiler in `tools/`
+3. Move files from `bin/` to their destination
 
 #### What changes must I make when moving my entire project folder?
-* In `src/index.html`, update the `<data>`, `<link>` and `<script>` tags
-* In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+1. In `src/index.html`, update the `<data>`, `<link>` and `<script>` tags
+2. In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
 
 
 ## Release History
-0.2.0 included [can-cleanempty](https://github.com/stevenvachon/can-cleanempty)
-0.1.0 initial "feedback" release
+* 0.2.0 included [can-cleanempty](https://github.com/stevenvachon/can-cleanempty)
+* 0.1.0 initial "feedback" release
