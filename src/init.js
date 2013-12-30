@@ -21,7 +21,9 @@ require(
 	//"can/construct/proxy",
 	"can/route/pushstate",
 	
-	"templates",	// must be above any components
+	// non-amd scripts here
+	
+	"templates",	// must be above any components/controls
 	
 	"components/app/app"
 ],

@@ -1,0 +1,21 @@
+{
+  "name": "can-boilerplate",
+  "description": "Get a head start on your CanJS project.",
+  "version": "0.3.0",
+  "homepage": "https://github.com/stevenvachon/can-boilerplate",
+  "author": {
+    "name": "Steven Vachon",
+    "email": "contact@svachon.com",
+    "url": "http://www.svachon.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stevenvachon/can-boilerplate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stevenvachon/can-boilerplate/issues"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  }
+}

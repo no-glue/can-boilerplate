@@ -1,18 +1,13 @@
-var cheerio = require("cheerio");
-var fs = require("fs");
-
-
-
 module.exports = function(grunt)
 {
-	// Path for LESS media references (so that they work with all routes)
-	var appRoot = cheerio( fs.readFileSync("../src/index.production.html", "utf8") ).find("#appRoot").attr("value");
+	// SHOULD BE A PROMPT IN THE FUTURE
+	var appRoot = "/bin/";
 	
 	
 	
 	grunt.initConfig(
 	{
-		pkg: grunt.file.readJSON("compile-package.json"),
+		pkg: grunt.file.readJSON("../src/package.json"),
 		
 		
 		
@@ -90,27 +85,13 @@ module.exports = function(grunt)
 		
 		copy:
 		{
-			assets:
+			"assets":
 			{
 				files:
 				[
-					{ cwd:"../src/assets/", src:["*", "**","!css/**","!js/**","!media/**"], dest:"../bin/assets/", expand:true },
+					{ cwd:"../src/assets/", src:["**","!css/**","!js/**","!media/**"], dest:"../bin/assets/", expand:true },
 					
 					{ cwd:"../src/assets/media/", src:["**","!*-embedded/**"], dest:"../bin/assets/media/", expand:true }
-				]
-			},
-			html:
-			{
-				files:
-				[
-					{ src:"../src/index.production.html", dest:"../bin/index.html" }
-				]
-			},
-			"server config(s)":
-			{
-				files:
-				[
-					{ src:["../src/.htaccess"], dest:"../bin/" }
 				]
 			}
 		},
@@ -135,6 +116,47 @@ module.exports = function(grunt)
 		
 		
 		
+		includereplace:
+		{
+			options:
+			{
+				prefix: "{{",
+				suffix: "}}",
+			},
+			"html":
+			{
+				options:
+				{
+					globals:
+					{
+						appRoot:		appRoot,
+						description:	"<%= pkg.description %>",
+						title:			"<%= pkg.name %>"
+					}
+				},
+				files:
+				[
+					{ cwd:"../src/", src:"index.production.html", dest:"../bin/", expand:true, flatten:true }
+				]
+			},
+			"server config(s)":
+			{
+				options:
+				{
+					globals:
+					{
+						path: appRoot+"index.html"
+					}
+				},
+				files:
+				[
+					{ cwd:"../src/", src:".htaccess.production", dest:"../bin/", expand:true, flatten:true }
+				]
+			}
+		},
+		
+		
+		
 		less:
 		{
 			"compile into minified css":
@@ -152,6 +174,22 @@ module.exports = function(grunt)
 				{
 					"../bin/app.css": "../src/init.less"
 				}
+			}
+		},
+		
+		
+		
+		rename:
+		{
+			"html":
+			{
+				src: "../bin/index.production.html",
+				dest: "../bin/index.html"
+			},
+			"server config(s)":
+			{
+				src: "../bin/.htaccess.production",
+				dest: "../bin/.htaccess"
 			}
 		},
 		
@@ -208,33 +246,39 @@ module.exports = function(grunt)
 		"grunt-contrib-cssmin",
 		"grunt-contrib-less",
 		"grunt-contrib-requirejs",
-		"grunt-contrib-uglify"
+		"grunt-contrib-uglify",
+		"grunt-include-replace",
+		"grunt-rename"
 	]);*/
 	grunt.loadNpmTasks("cancompile");
 	grunt.loadNpmTasks("grunt-cleanempty");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-contrib-cssmin");	// won't be required when this and less release the cleancss options update
+	grunt.loadNpmTasks("grunt-contrib-cssmin");	// won't be required when less and contrib-less release the cleancss options update
 	grunt.loadNpmTasks("grunt-contrib-less");
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-include-replace");
+	grunt.loadNpmTasks("grunt-rename");	// won't be required when/if include-replace is updated
 	
 	
 	
 	grunt.registerTask("default",
 	[
-		"less",			// compile less to css
-		"cssmin",		// minify css further (removes redundancies and special comments)
-		"copy",			// copy assets+html file to bin
+		"less",				// compile less to css
+		"cssmin",			// minify css further (removes redundancies and special comments)
+		"copy",				// copy assets to bin
+		"includereplace",	// copy html+apache files to bin with inserted variables
+		"rename",			// rename modified copied files
 		
-		"cancompile",	// compile templates
-		"requirejs",	// compile app and merge with compiled templates
-		"uglify",		// minifies smaller than requirejs and with far less configuring, plus has a banner option
-		"clean",		// remove compiled templates file
-		"cleanempty",	// remove empty assets and folders
+		"cancompile",		// compile templates
+		"requirejs",		// compile app and merge with compiled templates
+		"uglify",			// minifies smaller than requirejs and with far less configuring, plus has a banner option
+		"clean",			// remove compiled templates file
+		"cleanempty",		// remove empty assets and folders
 		
-		"compress"		// gzip css and js
+		"compress"			// gzip css and js
 	]);
 	
 	

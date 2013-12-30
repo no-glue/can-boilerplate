@@ -15,9 +15,11 @@ This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only wo
 This is the initial release, with an intent on listening to your feedback.
 
 ### I have plans to:
+* turn this into an npm package
 * create a scaffolder
 * add support for Windows and \*nix
-* avoid having to _install_ NodeJS, as I have done with Grunt
+* add support for [Bower](http://bower.io)
+* ~~avoid having to _install_ NodeJS, as I have done with Grunt~~ (npm is better)
 
 ### It currently comes packed with:
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
@@ -50,7 +52,7 @@ _Any_ empty files in `src/assets/` wll be excluded from the production build.
 Open up `tools/gruntfiles/minify-media.js` and set `makeBackup` to `false`.
 
 2. **Why not just set the \<script> and \<link> references to relative?**  
-You could, but then the 404 routes to your index file will stop working.
+You could, but then the 404 routes to your index file would stop working.
 
 3. **Why route 404s to the index file?**  
 Because `can.route.pushstate` can figure out where it is in relation to its `root`. CanJS can handle most of your application from within the browser alone.
@@ -62,16 +64,17 @@ You don't have to rely on your webserver to do it for you. Read up on [serving p
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
 
 6. **What changes must I make when moving my production build?**  
-  * In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+  * In `tools/gruntfiles/compile.js`, change the value of the `appRoot` variable
   * Run the compiler in `tools/`
   * Move files from `bin/` to their destination
 
 7. **What changes must I make when moving my entire project folder?**  
-  * In `src/index.html`, update the `<data>`, `<link>` and `<script>` tags
-  * In `src/index.production.html`, update the `<data>`, `<link>` and `<script>` tags
+  * In `src/index.html`, update the `<data>` tag
+  * See #6
 
 
 ## Release History
+* 0.3.0 simplified path changes, production HTML file now generated on compile
 * 0.2.1 updated to [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.2
 * 0.2.0 included [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.1
 * 0.1.0 initial "feedback" release

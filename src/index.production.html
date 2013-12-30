@@ -2,7 +2,8 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8"/>
-		<title>can-boilerplate</title>
+		<title>{{title}}</title>
+		<meta name="description" content="{{description}}"/>
 		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	</head>
 	<body>
@@ -10,7 +11,7 @@
 			<noscript>JavaScript must be enabled in order to continue.</noscript>
 		</div>
 		
-		<data id="appRoot" value="/bin/"></data>
+		<data id="appRoot" value="{{appRoot}}"></data>
 		
 		<script>
 		var preloader = setTimeout(function()
@@ -19,7 +20,7 @@
 		}, 4000);
 		</script>
 		
-		<link rel="stylesheet" href="/bin/app.css"/>
-		<script src="/bin/app.js"></script>
+		<link rel="stylesheet" href="{{appRoot}}app.css"/>
+		<script src="{{appRoot}}app.js"></script>
 	</body>
 </html>
