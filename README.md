@@ -74,6 +74,7 @@ You just need to [set ownership of the file to yourself](https://discussions.app
 
 
 ## Release History
+* 0.3.1 updated to [grunt-include-replace](https://github.com/alanshaw/grunt-include-replace) v1.2
 * 0.3.0 simplified path changes, production HTML file now generated on compile
 * 0.2.1 updated to [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.2
 * 0.2.0 included [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.1

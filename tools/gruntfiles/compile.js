@@ -121,7 +121,7 @@ module.exports = function(grunt)
 			options:
 			{
 				prefix: "{{",
-				suffix: "}}",
+				suffix: "}}"
 			},
 			"html":
 			{
@@ -131,13 +131,14 @@ module.exports = function(grunt)
 					{
 						appRoot:		appRoot,
 						description:	"<%= pkg.description %>",
-						title:			"<%= pkg.name %>"
+						title:			"<%= pkg.name %>",
+						version:		"<%= pkg.version %>"
 					}
 				},
 				files:
-				[
-					{ cwd:"../src/", src:"index.production.html", dest:"../bin/", expand:true, flatten:true }
-				]
+				{
+					"../bin/index.html" : "../src/index.production.html"
+				}
 			},
 			"server config(s)":
 			{
@@ -149,9 +150,9 @@ module.exports = function(grunt)
 					}
 				},
 				files:
-				[
-					{ cwd:"../src/", src:".htaccess.production", dest:"../bin/", expand:true, flatten:true }
-				]
+				{
+					"../bin/.htaccess" : "../src/.htaccess.production"
+				}
 			}
 		},
 		
@@ -166,7 +167,7 @@ module.exports = function(grunt)
 					cleancss: true,
 					compress: true,
 					rootpath: appRoot,
-					//rootpath: "",	// relative to output css file (not good when serving index.html to 404 pages to catch all routes)
+					//rootpath: "",	// relative to output css file
 					//rootpath: "/",	// force server root
 					strictMath: true
 				},
@@ -174,22 +175,6 @@ module.exports = function(grunt)
 				{
 					"../bin/app.css": "../src/init.less"
 				}
-			}
-		},
-		
-		
-		
-		rename:
-		{
-			"html":
-			{
-				src: "../bin/index.production.html",
-				dest: "../bin/index.html"
-			},
-			"server config(s)":
-			{
-				src: "../bin/.htaccess.production",
-				dest: "../bin/.htaccess"
 			}
 		},
 		
@@ -223,7 +208,7 @@ module.exports = function(grunt)
 		{
 			options:
 			{
-				banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n\n",
+				banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n\n"
 			},
 			"the js file":
 			{
@@ -247,8 +232,7 @@ module.exports = function(grunt)
 		"grunt-contrib-less",
 		"grunt-contrib-requirejs",
 		"grunt-contrib-uglify",
-		"grunt-include-replace",
-		"grunt-rename"
+		"grunt-include-replace"
 	]);*/
 	grunt.loadNpmTasks("cancompile");
 	grunt.loadNpmTasks("grunt-cleanempty");
@@ -260,7 +244,6 @@ module.exports = function(grunt)
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-include-replace");
-	grunt.loadNpmTasks("grunt-rename");	// won't be required when/if include-replace is updated
 	
 	
 	
@@ -270,7 +253,6 @@ module.exports = function(grunt)
 		"cssmin",			// minify css further (removes redundancies and special comments)
 		"copy",				// copy assets to bin
 		"includereplace",	// copy html+apache files to bin with inserted variables
-		"rename",			// rename modified copied files
 		
 		"cancompile",		// compile templates
 		"requirejs",		// compile app and merge with compiled templates
