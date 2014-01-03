@@ -1,10 +1,19 @@
+var fs = require("fs");
+var appRoot_default;
+
+try
+{
+	appRoot_default = fs.readFileSync("gruntfiles/approot", "utf8");
+}
+catch(error)
+{
+	appRoot_default = "/";
+}
+
+
+
 module.exports = function(grunt)
 {
-	// SHOULD BE A PROMPT IN THE FUTURE
-	var appRoot = "/bin/";
-	
-	
-	
 	grunt.initConfig(
 	{
 		pkg: grunt.file.readJSON("../src/package.json"),
@@ -129,7 +138,7 @@ module.exports = function(grunt)
 				{
 					globals:
 					{
-						appRoot:		appRoot,
+						appRoot:		"",	// gets prefixed
 						description:	"<%= pkg.description %>",
 						title:			"<%= pkg.name %>",
 						version:		"<%= pkg.version %>"
@@ -146,7 +155,7 @@ module.exports = function(grunt)
 				{
 					globals:
 					{
-						path: appRoot+"index.html"
+						path: "index.html"	// gets prefixed
 					}
 				},
 				files:
@@ -166,14 +175,45 @@ module.exports = function(grunt)
 				{
 					cleancss: true,
 					compress: true,
-					rootpath: appRoot,
-					//rootpath: "",	// relative to output css file
-					//rootpath: "/",	// force server root
+					rootpath: "",	// gets prefixed
 					strictMath: true
 				},
 				files:
 				{
 					"../bin/app.css": "../src/init.less"
+				}
+			}
+		},
+		
+		
+		
+		prompt:
+		{
+			"config":
+			{
+				options:
+				{
+					questions:
+					[
+						{
+							config: "required but useless",
+							type: "input",
+							message: "Production app root",
+							default: appRoot_default,
+							filter: function(value)
+							{
+								var var1 = "includereplace.html.options.globals.appRoot";
+								var var2 = "includereplace.server config(s).options.globals.path";
+								var var3 = "less.compile into minified css.options.rootpath";
+								
+								grunt.config( var1, value+grunt.config(var1) );
+								grunt.config( var2, value+grunt.config(var2) );
+								grunt.config( var3, value+grunt.config(var3) );
+								
+								fs.writeFileSync("gruntfiles/approot", value, "utf8");
+							}
+						}
+					]
 				}
 			}
 		},
@@ -232,7 +272,8 @@ module.exports = function(grunt)
 		"grunt-contrib-less",
 		"grunt-contrib-requirejs",
 		"grunt-contrib-uglify",
-		"grunt-include-replace"
+		"grunt-include-replace",
+		"grunt-prompt"
 	]);*/
 	grunt.loadNpmTasks("cancompile");
 	grunt.loadNpmTasks("grunt-cleanempty");
@@ -244,11 +285,19 @@ module.exports = function(grunt)
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-include-replace");
+	grunt.loadNpmTasks("grunt-prompt");
+	
+	
+	
+	grunt.log.writeln("\nPRODUCTION COMPILE");
+	grunt.log.writeln("This will minify+compress all dependencies (css,js,etc) within ../src/");
 	
 	
 	
 	grunt.registerTask("default",
 	[
+		"prompt",			// questionnaire
+		
 		"less",				// compile less to css
 		"cssmin",			// minify css further (removes redundancies and special comments)
 		"copy",				// copy assets to bin

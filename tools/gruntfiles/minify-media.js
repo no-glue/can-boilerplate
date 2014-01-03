@@ -1,10 +1,5 @@
 module.exports = function(grunt)
 {
-	// Makes a backup folder of /assets/media/
-	var makeBackup = true;
-	
-	
-	
 	grunt.initConfig(
 	{
 		copy:
@@ -33,6 +28,27 @@ module.exports = function(grunt)
 		
 		
 		
+		prompt:
+		{
+			"config":
+			{
+				options:
+				{
+					questions:
+					[
+						{
+							config: "makeBackup",
+							type: "confirm",
+							message: "Backup before process",
+							default: false
+						}
+					]
+				}
+			}
+		},
+		
+		
+		
 		svgmin:
 		{
 			"all svg":
@@ -52,18 +68,40 @@ module.exports = function(grunt)
 	[
 		"grunt-contrib-copy",
 		"grunt-contrib-imagemin",
+		"grunt-prompt",
 		"grunt-svgmin"
 	]);*/
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-imagemin");
+	grunt.loadNpmTasks("grunt-prompt");
 	grunt.loadNpmTasks("grunt-svgmin");
 	
 	
 	
-	var task = ["imagemin","svgmin"];
-	if (makeBackup) task.unshift("copy");
+	grunt.log.writeln("\nDEV MEDIA");
+	grunt.log.writeln("This will minify all png,jpg,gif,svg files in ../src/assets/media/");
 	
-	grunt.registerTask("default", task);
+	
+	
+	grunt.registerTask("prompt-finished", "", function()
+	{
+		if ( !grunt.config("makeBackup") )
+		{
+			grunt.config("copy.backup", {});
+			
+			grunt.log.ok("Emptied copy:backup task");
+		}
+	});
+	
+	grunt.registerTask("default",
+	[
+		"prompt",
+		"prompt-finished",
+		
+		"copy",
+		"imagemin",
+		"svgmin"
+	]);
 	
 	
 	
