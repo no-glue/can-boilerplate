@@ -61,11 +61,11 @@ You don't have to rely on your webserver to do it for you. Read up on [serving p
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
 
 5. **What changes must I make when moving my production environment?**  
-  * Run the compiler in `tools/` and change the app root value
-  * Move files from `bin/` to their destination
+  * Run the compiler in `tools/` and change the app root value.
+  * Move files from `bin/` to their destination.
 
 6. **What changes must I make when moving my development environment?**  
-  * In `src/index.html`, update the `<data>` tag
+In `src/index.html`, update the `<data>` tag.
 
 
 ## Release History
