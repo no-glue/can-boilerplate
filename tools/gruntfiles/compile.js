@@ -1,22 +1,12 @@
-var fs = require("fs");
-var appRoot_default;
-
-try
-{
-	appRoot_default = fs.readFileSync("gruntfiles/approot", "utf8");
-}
-catch(error)
-{
-	appRoot_default = "/";
-}
-
-
-
 module.exports = function(grunt)
 {
+	var package = "../src/package.json";
+	
+	
+	
 	grunt.initConfig(
 	{
-		pkg: grunt.file.readJSON("../src/package.json"),
+		pkg: grunt.file.readJSON(package),
 		
 		
 		
@@ -199,7 +189,7 @@ module.exports = function(grunt)
 							config: "required but useless",
 							type: "input",
 							message: "Production app root",
-							default: appRoot_default,
+							default: "<%= pkg.config.appRoot %>",
 							filter: function(value)
 							{
 								var var1 = "includereplace.html.options.globals.appRoot";
@@ -210,7 +200,9 @@ module.exports = function(grunt)
 								grunt.config( var2, value+grunt.config(var2) );
 								grunt.config( var3, value+grunt.config(var3) );
 								
-								fs.writeFileSync("gruntfiles/approot", value, "utf8");
+								grunt.config("pkg.config.appRoot", value);
+								
+								grunt.file.write(package, JSON.stringify(grunt.config("pkg"),null,"  "));
 							}
 						}
 					]
