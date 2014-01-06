@@ -69,6 +69,7 @@ In `src/index.html`, update the `<data>` tag.
 
 
 ## Release History
+* 0.4.2 gruntfiles cleanup
 * 0.4.1 moved `appRoot` to project package file
 * 0.4.0 added prompts to the minify and compile tools
 * 0.3.1 updated to [grunt-include-replace](https://github.com/alanshaw/grunt-include-replace) v1.2

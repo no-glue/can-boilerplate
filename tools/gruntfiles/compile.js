@@ -252,21 +252,6 @@ module.exports = function(grunt)
 	
 	
 	
-	// won't work until grunt v0.5
-	/*grunt.loadNpmTasks(
-	[
-		"cancompile",
-		"grunt-cleanempty",
-		"grunt-contrib-clean",
-		"grunt-contrib-compress",
-		"grunt-contrib-copy",
-		"grunt-contrib-cssmin",
-		"grunt-contrib-less",
-		"grunt-contrib-requirejs",
-		"grunt-contrib-uglify",
-		"grunt-include-replace",
-		"grunt-prompt"
-	]);*/
 	grunt.loadNpmTasks("cancompile");
 	grunt.loadNpmTasks("grunt-cleanempty");
 	grunt.loadNpmTasks("grunt-contrib-clean");

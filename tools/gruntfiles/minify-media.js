@@ -63,14 +63,6 @@ module.exports = function(grunt)
 	
 	
 	
-	// won't work until grunt v0.5
-	/*grunt.loadNpmTasks(
-	[
-		"grunt-contrib-copy",
-		"grunt-contrib-imagemin",
-		"grunt-prompt",
-		"grunt-svgmin"
-	]);*/
 	grunt.loadNpmTasks("grunt-contrib-copy");
 	grunt.loadNpmTasks("grunt-contrib-imagemin");
 	grunt.loadNpmTasks("grunt-prompt");
