@@ -36,19 +36,5 @@ function()
 	can.route.bindings.pushstate.root = $("#appRoot").attr("value");
 	
 	
-	// {{app-route}} available to all templates
-	/*can.Mustache.registerHelper("app-route", function()
-	{
-		var url = can.route.bindings.pushstate.root;
-		
-		for (var i=0, numArguments=arguments.length-1; i<numArguments; i++)	// avoid last index (the scope)
-		{
-			url += arguments[i] + "/";
-		}
-		
-		return url;
-	});*/
-	
-	
-	$(".preloader").replaceWith( can.view.mustache("<app-container/>") );
+	$(".preloader").replaceWith( can.view.mustache("<app-container/>")() );
 });

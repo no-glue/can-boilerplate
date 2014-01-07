@@ -7,6 +7,14 @@ define(
 ],
 function()
 {
+	// {{app-route-section 'sectionname'}} available to all templates
+	/*can.Mustache.registerHelper("app-route-section", function(section)
+	{
+		return can.route.url({ section:section });
+	});*/
+	
+	
+	
 	return can.Component.extend(
 	{
 		tag: "app-container",
@@ -16,8 +24,10 @@ function()
 		
 		init: function(element, options)
 		{
-			//can.route(":something/");
-			//can.route.ready();
+			/*can.route("", {section:""});
+			can.route(":section/");
+			can.route(":section/:sub/");
+			can.route.ready();*/
 		},
 		
 		
@@ -31,17 +41,10 @@ function()
 		
 		events:
 		{
-			":section route": function(data)
+			/*"{can.route} section": function(route, event, newVal)
 			{
-				console.log(":section route");
-			},
-			
-			
-			
-			"route": function(data)
-			{
-				console.log("route");
-			}
+				console.log("section :: "+newVal);
+			}*/
 		}
 	});
 });

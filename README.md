@@ -5,14 +5,12 @@
 _How it can help you:_
 * Get started quickly with Development and Production environment "shell" files
 * Avoid feeling overwhelmed with a folder structure that's simple and light
-* Save time with compilers and optimizers that do not require the use of a command prompt
+* Save time with compilers and optimizers that do not require the use of a command line
 
 
 ## Getting Started
 
 This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Mac**.
-
-This is the initial release, with an intent on listening to your feedback.
 
 ### I have plans to:
 * turn this into an npm package
@@ -69,6 +67,7 @@ In `src/index.html`, update the `<data>` tag.
 
 
 ## Release History
+* 0.4.3 `appRoot` cleanup and Zepto support
 * 0.4.2 gruntfiles cleanup
 * 0.4.1 moved `appRoot` to project package file
 * 0.4.0 added prompts to the minify and compile tools

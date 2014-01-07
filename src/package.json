@@ -1,12 +1,12 @@
 {
   "name": "Your Project",
-  "description": "(no description)",
+  "description": "This project does awesome stuff.",
   "version": "0.1.0",
   "homepage": "https://github.com/yourname/yourproject",
   "author": {
     "name": "Your Name",
     "email": "your@email.com",
-    "url": "http://www.your-website.com/"
+    "url": "http://www.yourwebsite.com/"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,6 @@
     "url": "https://github.com/yourname/yourproject/issues"
   },
   "config": {
-    "appRoot": "/"
+    "appRoot": "/bin/"
   }
 }
