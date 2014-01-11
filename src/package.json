@@ -16,6 +16,8 @@
     "url": "https://github.com/yourname/yourproject/issues"
   },
   "config": {
-    "appRoot": "/bin/"
+    "appRoot": "/bin/",
+    "generateSourceMaps": false,
+    "runCompileTests": true
   }
 }

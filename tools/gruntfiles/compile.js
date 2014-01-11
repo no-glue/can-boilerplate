@@ -1,12 +1,17 @@
+var clearLog = require("cli-clear");
+var Table = require("cli-table");
+
+
+
 module.exports = function(grunt)
 {
-	var package = "../src/package.json";
+	var packageFile = "../src/package.json";
 	
 	
 	
 	grunt.initConfig(
 	{
-		pkg: grunt.file.readJSON(package),
+		pkg: grunt.file.readJSON(packageFile),
 		
 		
 		
@@ -33,13 +38,16 @@ module.exports = function(grunt)
 			{
 				force: true
 			},
-			"bin":
-			{
-				src: ["../bin/*", "../bin/.htaccess"]	// doesn't automatically remove hidden files (yet?)
-			},
-			"templates":
+			"post":
 			{
 				src: ["../bin/app.templates.js"]
+			},
+			"pre":
+			{
+				files:
+				[
+					{ src:"../bin/*", dot:true }
+				]
 			}
 		},
 		
@@ -146,10 +154,10 @@ module.exports = function(grunt)
 				{
 					globals:
 					{
-						appRoot:		"",	// gets prefixed
-						description:	"<%= pkg.description %>",
-						title:			"<%= pkg.name %>",
-						version:		"<%= pkg.version %>"
+						appRoot:     "",	// gets prefixed
+						description: "<%= pkg.description %>",
+						title:       "<%= pkg.name %>",
+						version:     "<%= pkg.version %>"
 					}
 				},
 				files:
@@ -169,9 +177,21 @@ module.exports = function(grunt)
 				{
 					cleancss: true,
 					compress: true,
+					//strictMath: true,	// can't compile bootstrap 3.0.3 when true
+					
 					rootpath: "",	// gets prefixed
-					strictMath: true
+					
+					sourceMap: true,	// gets changed
+					sourceMapFilename: "../bin/app.css.map",
+					sourceMapURL: "<%= pkg.config.appRoot %>app.css.map",
+					sourceMapBasepath: "<%= pkg.config.appRoot %>",	// DOES NOTHING in contrib-less v0.9.0
+					outputSourceFiles: true
 				},
+				//cleancssOptions:
+				//{
+					//banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
+					//keepSpecialComments: 0
+				//},
 				files:
 				{
 					"../bin/app.css": "../src/init.less"
@@ -190,23 +210,51 @@ module.exports = function(grunt)
 					questions:
 					[
 						{
-							config: "required but useless",
+							config: "defaultSettings",
+							type: "confirm",
+							message: "Use default settings?",
+							default: true,
+							displayAsDefault: false	// custom
+						},
+						{
+							config: "pkg.version",
+							type: "input",
+							message: "Release version",
+							default: "<%= pkg.version %>",
+							when: function(answers)
+							{
+								return answers["defaultSettings"] === false;
+							}
+						},
+						{
+							config: "pkg.config.appRoot",
 							type: "input",
 							message: "Production app root",
 							default: "<%= pkg.config.appRoot %>",
-							filter: function(value)
+							when: function(answers)
 							{
-								var var1 = "includereplace.html.options.globals.appRoot";
-								var var2 = "includereplace.apache.options.globals.path";
-								var var3 = "less.compile.options.rootpath";
-								
-								grunt.config( var1, value+grunt.config(var1) );
-								grunt.config( var2, value+grunt.config(var2) );
-								grunt.config( var3, value+grunt.config(var3) );
-								
-								grunt.config("pkg.config.appRoot", value);
-								
-								grunt.file.write(package, JSON.stringify(grunt.config("pkg"),null,"  "));
+								return answers["defaultSettings"] === false;
+							}
+						},
+						{
+							config: "pkg.config.generateSourceMaps",
+							type: "confirm",
+							message: "Generate source maps?",
+							default: "<%= pkg.config.generateSourceMaps %>",
+							when: function(answers)
+							{
+								return answers["defaultSettings"] === false;
+							}
+						},
+						{
+							config: "saveSettings",
+							type: "confirm",
+							message: "Save these settings?",
+							default: true,
+							displayAsDefault: false,	// custom
+							when: function(answers)
+							{
+								return answers["defaultSettings"] === false;
 							}
 						}
 					]
@@ -223,6 +271,7 @@ module.exports = function(grunt)
 				options:
 				{
 					optimize: "none",
+					generateSourceMaps: true,	// gets changed
 					
 					baseUrl: "../src/",
 					name: "assets/js/almond",
@@ -242,12 +291,17 @@ module.exports = function(grunt)
 		
 		uglify:
 		{
-			options:
-			{
-				banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n\n"
-			},
 			"js":
 			{
+				options:
+				{
+					banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
+					sourceMap: true,	// gets changed
+					sourceMapIn:   "../bin/app.js.map",	// input from requirejs
+					sourceMapName: "../bin/app.js.map",	// output
+					sourceMapRoot: "../src/",
+					sourceMapIncludeSources: true
+				},
 				src: "../bin/app.js",
 				dest: "../bin/app.js"
 			}
@@ -256,12 +310,12 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.loadNpmTasks("cancompile");
+	grunt.loadNpmTasks("can-compile");
 	grunt.loadNpmTasks("grunt-cleanempty");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-contrib-cssmin");	// won't be required when less and contrib-less release the cleancss options update
+	grunt.loadNpmTasks("grunt-contrib-cssmin");	// won't be required when contrib-less gets cleancssOptions
 	grunt.loadNpmTasks("grunt-contrib-less");
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
@@ -270,16 +324,89 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.log.writeln("\nPRODUCTION COMPILE");
-	grunt.log.writeln("This will minify+compress all dependencies (css,js,etc) within ../src/");
+	// Hide headers
+	grunt.log.header_backup = grunt.log.header;
+	grunt.log.header = function(){}
+	
+	
+	
+	grunt.registerTask("prompt-finished", "", function()
+	{
+		// App root
+		var appRoot = grunt.config("pkg.config.appRoot");
+		var var1 = "includereplace.html.options.globals.appRoot";
+		var var2 = "includereplace.apache.options.globals.path";
+		var var3 = "less.compile.options.rootpath";
+		grunt.config( var1, appRoot+grunt.config(var1) );
+		grunt.config( var2, appRoot+grunt.config(var2) );
+		grunt.config( var3, appRoot+grunt.config(var3) );
+		
+		// Source maps
+		if ( !grunt.config("pkg.config.generateSourceMaps") )
+		{
+			grunt.config( "less.compile.options.sourceMap", false );
+			grunt.config( "requirejs.compile+merge.options.generateSourceMaps", false );
+			grunt.config( "uglify.js.options.sourceMap", false );
+			grunt.config( "uglify.js.options.sourceMapIncludeSources", false );
+		}
+		
+		if ( grunt.config("saveSettings") )
+		{
+			grunt.file.write(packageFile, JSON.stringify(grunt.config("pkg"),null,"  "));
+		}
+		
+		// Show headers
+		grunt.log.header = grunt.log.header_backup;
+	});
+	
+	
+	
+	grunt.registerTask("welcome", "", function()
+	{
+		var done = this.async();
+		
+		clearLog( function()
+		{
+			var description = "PRODUCTION COMPILE".underline;
+			description += "\nThis will minify+compress all dependencies (css,js,etc)";
+			description += "\nwithin: "+"../src/".yellow;
+			description += "\ninto:   "+"../bin/".yellow;
+			
+			var defaults = "";
+			for (var i=0, questions=grunt.config("prompt.config.options.questions"), numQuestions=questions.length; i<numQuestions; i++)
+			{
+				var question = questions[i];
+				
+				if (question.displayAsDefault !== false)
+				{
+					defaults += question.message+": "+question.default.toString().yellow;
+					
+					if (i < numQuestions-2) defaults += "\n";
+				}
+			}
+			
+			var table = new Table({ colWidths:[72] });
+			
+			table.push( [description],[defaults] );
+			
+			grunt.log.writeln( table.toString() );
+			
+			// Headers temporarily hidden.. needs space
+			grunt.log.writeln("");
+			
+			done();
+		});
+	});
 	
 	
 	
 	grunt.registerTask("default",
 	[
+		"welcome",
 		"prompt",			// questionnaire
+		"prompt-finished",
 		
-		"clean:bin",		// empty bin
+		"clean:pre",		// empty bin
 		"copy",				// copy assets to bin
 		"cleanempty",		// remove empty assets and folders
 		"includereplace",	// copy html+apache files to bin with inserted variables
@@ -290,7 +417,7 @@ module.exports = function(grunt)
 		"cancompile",		// compile templates
 		"requirejs",		// compile app and merge with compiled templates
 		"uglify",			// minifies smaller than requirejs and with far less configuring, plus has a banner option
-		"clean:templates",	// remove compiled templates file
+		"clean:post",		// remove compiled templates file and source map
 		
 		"compress"			// gzip css and js
 	]);

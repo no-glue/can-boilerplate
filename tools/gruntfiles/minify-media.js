@@ -1,3 +1,8 @@
+var clearLog = require("cli-clear");
+var Table = require("cli-table");
+
+
+
 module.exports = function(grunt)
 {
 	grunt.initConfig(
@@ -39,7 +44,7 @@ module.exports = function(grunt)
 						{
 							config: "makeBackup",
 							type: "confirm",
-							message: "Backup before process",
+							message: "Backup before processing?",
 							default: false
 						}
 					]
@@ -70,8 +75,9 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.log.writeln("\nDEV MEDIA");
-	grunt.log.writeln("This will minify all png,jpg,gif,svg files in ../src/assets/media/");
+	// Hide headers
+	grunt.log.header_backup = grunt.log.header;
+	grunt.log.header = function(){}
 	
 	
 	
@@ -80,13 +86,42 @@ module.exports = function(grunt)
 		if ( !grunt.config("makeBackup") )
 		{
 			grunt.config("copy.backup", {});
-			
-			grunt.log.ok("Emptied copy:backup task");
 		}
+		
+		// Show headers
+		grunt.log.header = grunt.log.header_backup;
 	});
+	
+	
+	
+	grunt.registerTask("welcome", "", function()
+	{
+		var done = this.async();
+		
+		clearLog( function()
+		{
+			var description = "MINIFY DEV MEDIA".underline;
+			description += "\nThis will minify all png,jpg,gif,svg files";
+			description += "\nwithin: "+"../src/assets/media/".yellow;
+			
+			var table = new Table({ colWidths:[72] });
+			
+			table.push( [description] );
+			
+			grunt.log.writeln( table.toString() );
+			
+			// Headers temporarily hidden.. needs space
+			grunt.log.writeln("");
+			
+			done();
+		});
+	});
+	
+	
 	
 	grunt.registerTask("default",
 	[
+		"welcome",
 		"prompt",
 		"prompt-finished",
 		

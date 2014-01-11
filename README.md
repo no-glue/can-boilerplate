@@ -1,6 +1,6 @@
 # can-boilerplate
 
-> Get a head start on your [CanJS v2.x](https://github.com/bitovi/canjs/) project.
+> Get a head start on your [CanJS](http://canjs.com/) v2.x project.
 
 _How it can help you:_
 * Get started quickly with Development and Production environment "shell" files
@@ -12,13 +12,6 @@ _How it can help you:_
 
 This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Mac**.
 
-### I have plans to:
-* turn this into an npm package
-* create a scaffolder
-* add support for Windows and \*nix
-* add support for [Bower](http://bower.io)
-* ~~avoid having to _install_ NodeJS, as I have done with Grunt~~ (npm is better)
-
 ### It currently comes packed with:
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
 * [jQuery](http://jquery.com/)
@@ -26,10 +19,14 @@ This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only wo
 * [RequireJS](http://requirejs.org/) + [Almond](https://github.com/jrburke/almond)
 * js/css minifiers and gif/png/jpg/svg optimizers
 * Apache .htaccess files that enable `can.route.pushstate` use on all relative 404 routes
-
-...and:
 * [Grunt](http://gruntjs.com/) (no need to install it)
 
+### Roadmap Features:
+* `0.5` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
+* `0.6` add support for [DocumentJS](https://github.com/bitovi/documentjs)
+* `0.7` add support for [Bower](http://bower.io/)
+* `0.8` turn this into an npm package (no longer Mac-only) with a scaffolder
+* `0.9` ?
 
 ## Folder Structure
 `src/assets/css/`: LESS/CSS libraries compiled into production CSS file (eg. "bin/app.css"). Folder _excluded_ in production build.
@@ -68,11 +65,12 @@ You just need to [set ownership of the file to yourself](https://discussions.app
 
 
 ## Release History
+* 0.4.5 minify/compile tools cleanup, added support for JavaScript and LESS source maps (buggy)
 * 0.4.4 compiler and url-helpers cleanup
 * 0.4.3 `appRoot` cleanup and Zepto support
 * 0.4.2 gruntfiles cleanup
 * 0.4.1 moved `appRoot` to project package file
-* 0.4.0 added prompts to the minify and compile tools
+* 0.4.0 added prompts to the minify/compile tools
 * 0.3.1 updated to [grunt-include-replace](https://github.com/alanshaw/grunt-include-replace) v1.2
 * 0.3.0 simplified path changes, production HTML file now generated on compile
 * 0.2.1 updated to [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.2

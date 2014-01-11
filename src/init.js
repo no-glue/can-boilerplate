@@ -3,8 +3,8 @@ require.config(
 	paths:
 	{
 		// Main Libraries
-		can:	"assets/js/canjs.com-2.0.4/amd/can",
-		jquery:	"assets/js/jquery-2.0.3"
+		can:	"assets/js/amd/can",
+		jquery:	"assets/js/amd/jquery-2.0.3"
 	},
 	shim:
 	{

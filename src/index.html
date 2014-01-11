@@ -29,7 +29,7 @@
 		function require_dev(d,e){function f(){if(++g<d.length)a:{var c=j+d[g],h=function(){f()},a=c.match(/\.([0-9a-z]+)(?:[\?#]|$)/i),b;if(a){a=a[1];switch(a){case "css":case "less":b=document.createElement("link");b.setAttribute("rel","stylesheet/"+a);b.setAttribute("href",c);a=document.createElement("img");a.onerror=function(){h.apply(b);delete this.onerror};a.src=c;break;case "js":b=document.createElement("script");b.setAttribute("src",c);b.onload=function(){h.apply(this);delete this.onload};break;default:console.error('Unsupported file extension "'+
 		a+'": '+c);break a}document.body.appendChild(b)}else console.error("Missing file extension: "+c)}else e&&e()}var j=appRoot,g=-1;f()};
 		
-		require_dev(["init.less","assets/js/less-1.5.1.js","assets/js/require.js"], function()
+		require_dev(["init.less","assets/js/less-1.6.1.js","assets/js/require.js"], function()
 		{
 			define("templates", function(){});
 			require.config({baseUrl:appRoot});
