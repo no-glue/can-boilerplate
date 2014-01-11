@@ -32,9 +32,7 @@ function()
 	clearTimeout(preloader);
 	preloader = null;
 	
-	
 	can.route.bindings.pushstate.root = $("#appRoot").attr("value");
-	
 	
 	$(".preloader").replaceWith( can.view.mustache("<app-container/>")() );
 });

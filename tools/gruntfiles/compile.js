@@ -12,7 +12,7 @@ module.exports = function(grunt)
 		
 		cancompile:
 		{
-			"compile templates":
+			"templates":
 			{
 				src: ["../src/components/**/*.mustache"],
 				out: "../bin/app.templates.js",
@@ -33,7 +33,11 @@ module.exports = function(grunt)
 			{
 				force: true
 			},
-			"compiled templates file":
+			"bin":
+			{
+				src: ["../bin/*", "../bin/.htaccess"]	// doesn't automatically remove hidden files (yet?)
+			},
+			"templates":
 			{
 				src: ["../bin/app.templates.js"]
 			}
@@ -51,7 +55,7 @@ module.exports = function(grunt)
 			{
 				src: ["../bin/assets/**/*"]
 			},
-			"folders in app root":
+			"app root":
 			{
 				options:
 				{
@@ -65,7 +69,7 @@ module.exports = function(grunt)
 		
 		compress:
 		{
-			"all css/js":
+			"css/js":
 			{
 				options:
 				{
@@ -99,7 +103,7 @@ module.exports = function(grunt)
 		
 		cssmin:
 		{
-			"more minification":
+			"more":
 			{
 				options:
 				{
@@ -122,6 +126,20 @@ module.exports = function(grunt)
 				prefix: "{{",
 				suffix: "}}"
 			},
+			"apache":
+			{
+				options:
+				{
+					globals:
+					{
+						path: "index.html"	// gets prefixed
+					}
+				},
+				files:
+				{
+					"../bin/.htaccess" : "../src/.htaccess.production"
+				}
+			},
 			"html":
 			{
 				options:
@@ -138,20 +156,6 @@ module.exports = function(grunt)
 				{
 					"../bin/index.html" : "../src/index.production.html"
 				}
-			},
-			"server config(s)":
-			{
-				options:
-				{
-					globals:
-					{
-						path: "index.html"	// gets prefixed
-					}
-				},
-				files:
-				{
-					"../bin/.htaccess" : "../src/.htaccess.production"
-				}
 			}
 		},
 		
@@ -159,7 +163,7 @@ module.exports = function(grunt)
 		
 		less:
 		{
-			"compile into minified css":
+			"compile":
 			{
 				options:
 				{
@@ -193,8 +197,8 @@ module.exports = function(grunt)
 							filter: function(value)
 							{
 								var var1 = "includereplace.html.options.globals.appRoot";
-								var var2 = "includereplace.server config(s).options.globals.path";
-								var var3 = "less.compile into minified css.options.rootpath";
+								var var2 = "includereplace.apache.options.globals.path";
+								var var3 = "less.compile.options.rootpath";
 								
 								grunt.config( var1, value+grunt.config(var1) );
 								grunt.config( var2, value+grunt.config(var2) );
@@ -214,7 +218,7 @@ module.exports = function(grunt)
 		
 		requirejs:
 		{
-			"compile app with compiled templates":
+			"compile+merge":
 			{
 				options:
 				{
@@ -242,7 +246,7 @@ module.exports = function(grunt)
 			{
 				banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n\n"
 			},
-			"the js file":
+			"js":
 			{
 				src: "../bin/app.js",
 				dest: "../bin/app.js"
@@ -275,16 +279,18 @@ module.exports = function(grunt)
 	[
 		"prompt",			// questionnaire
 		
+		"clean:bin",		// empty bin
+		"copy",				// copy assets to bin
+		"cleanempty",		// remove empty assets and folders
+		"includereplace",	// copy html+apache files to bin with inserted variables
+		
 		"less",				// compile less to css
 		"cssmin",			// minify css further (removes redundancies and special comments)
-		"copy",				// copy assets to bin
-		"includereplace",	// copy html+apache files to bin with inserted variables
 		
 		"cancompile",		// compile templates
 		"requirejs",		// compile app and merge with compiled templates
 		"uglify",			// minifies smaller than requirejs and with far less configuring, plus has a banner option
-		"clean",			// remove compiled templates file
-		"cleanempty",		// remove empty assets and folders
+		"clean:templates",	// remove compiled templates file
 		
 		"compress"			// gzip css and js
 	]);

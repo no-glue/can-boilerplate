@@ -2,19 +2,12 @@ define(
 [
 	"can",
 	
+	//"components/app/url-helpers",
+	
 	// Anything else
-	//"components/something/something",
 ],
 function()
 {
-	// {{app-route-section 'sectionname'}} available to all templates
-	/*can.Mustache.registerHelper("app-route-section", function(section)
-	{
-		return can.route.url({ section:section });
-	});*/
-	
-	
-	
 	return can.Component.extend(
 	{
 		tag: "app-container",
@@ -27,6 +20,7 @@ function()
 			/*can.route("", {section:""});
 			can.route(":section/");
 			can.route(":section/:sub/");
+			can.route("assets/", false);
 			can.route.ready();*/
 		},
 		
@@ -43,7 +37,24 @@ function()
 		{
 			/*"{can.route} section": function(route, event, newVal)
 			{
-				console.log("section :: "+newVal);
+				switch (newVal)
+				{
+					case "":
+					{
+						console.log("load home section");
+						break;
+					}
+					case "fake-page1":
+					case "fake-page2":
+					{
+						console.log("load "+newVal+" section");
+						break;
+					}
+					default:
+					{
+						console.log("load error 404 page");
+					}
+				}
 			}*/
 		}
 	});

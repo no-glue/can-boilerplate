@@ -63,10 +63,12 @@ You just need to [set ownership of the file to yourself](https://discussions.app
   * Move files from `bin/` to their destination.
 
 6. **What changes must I make when moving my development environment?**  
-In `src/index.html`, update the `<data>` tag.
+  * In `src/index.html`, update the `<data>` tag.
+  * In `src/.htaccess`, update the path to `index.html`.
 
 
 ## Release History
+* 0.4.4 compiler and url-helpers cleanup
 * 0.4.3 `appRoot` cleanup and Zepto support
 * 0.4.2 gruntfiles cleanup
 * 0.4.1 moved `appRoot` to project package file
