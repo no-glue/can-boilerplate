@@ -1,0 +1,23 @@
+{
+  "name": "Your Project",
+  "description": "This project does awesome stuff.",
+  "version": "0.1.0",
+  "homepage": "https://github.com/yourname/yourproject",
+  "author": {
+    "name": "Your Name",
+    "email": "your@email.com",
+    "url": "http://www.yourwebsite.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yourname/yourproject.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourname/yourproject/issues"
+  },
+  "config": {
+    "appRoot": "/repo/client-dist/",
+    "generateSourceMaps": false,
+    "runCompileTests": true
+  }
+}

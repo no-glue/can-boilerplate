@@ -1,0 +1,11 @@
+{
+  "private": true,
+  "dependencies": {
+    "3l": "latest",
+    "almond": "latest",
+    "canjs": "latest",
+    "jquery": "latest",
+    "less": "latest",
+    "requirejs": "latest"
+  }
+}
