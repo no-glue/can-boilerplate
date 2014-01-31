@@ -2,7 +2,7 @@
 
 > Get a head start on your [CanJS](http://canjs.com/) v2.x project.
 
-_How it can help you:_
+*How it can help you:*
 * Get started quickly with Development and Production environment "shell" files
 * Avoid feeling overwhelmed with a folder structure that's simple and light
 * Save time with compilers and optimizers that do not require the use of a command line
@@ -10,28 +10,51 @@ _How it can help you:_
 
 ## Getting Started
 
-This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Mac**.
+This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Unix-based OS**.
 
 ### It currently comes packed with:
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
 * [jQuery](http://jquery.com/)
 * [LESS](http://lesscss.org/) + [3L](http://mateuszkocz.github.io/3l/)
 * [RequireJS](http://requirejs.org/) + [Almond](https://github.com/jrburke/almond)
-* js/css compiler+minifier and a gif/png/jpg/svg optimizer
+* js/css compiler+minifier and gif/png/jpg/svg optimizer
 * Apache .htaccess files that enable `can.route.pushstate` use on all relative 404 routes
 * [Grunt](http://gruntjs.com/) and [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.6` add support for [DocumentJS](https://github.com/bitovi/documentjs)
-* `0.7` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
-* `0.8` turn this into an npm package (no longer Mac-only) with a scaffolder
-* `0.9` ?
+* `0.6.5` test with [Travis CI](https://travis-ci.org/)
+* `0.7` add support for [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
+* `0.8` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
+* `0.9` possibly add hooks to [Yeoman](http://yeoman.io/)
+* `1.0` ?
 
-## Folder Structure
+### Generating a New Project
+A scaffolder is provided in the `canboilerplate` command line. It will also run the [install](#installing-a-project) automatically.
+
+### "Installing" a Project
+Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/` to install the build tools and all client-side dependencies. Optionally, you can manually run `npm install` and `bower install`.
+
+### Compiling a Project
+Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/`. Optionally, you can manually run `grunt`.
+
+## Project Folder Structure
 ````
-├── repo/
-│   ├── client-dev/
-│   │   ├── assets/
+├── client/
+│   ├── node_modules/
+│   ├── private/
+│   │   ├── components/
+│   │   │   └── example/
+│   │   │       ├── helpers/
+│   │   │       ├── media/
+│   │   │       │   ├── backgrounds-embedded/
+│   │   │       │   ├── chrome-embedded/
+│   │   │       │   ├── icons-embedded/
+│   │   │       │   └── textures-embedded/
+│   │   │       ├── models/
+│   │   │       ├── example.js
+│   │   │       ├── example.less
+│   │   │       └── example.mustache
+│   │   ├── media/
 │   │   │   ├── backgrounds/
 │   │   │   ├── backgrounds-embedded/
 │   │   │   ├── chrome/
@@ -41,40 +64,34 @@ This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only wo
 │   │   │   ├── icons-embedded/
 │   │   │   ├── textures/
 │   │   │   └── textures-embedded/
-│   │   ├── components/
-│   │   │   └── app/
-│   │   │       ├── helpers/
-│   │   │       │   └── urls.js
-│   │   │       ├── app.js
-│   │   │       ├── app.less
-│   │   │       └── app.mustache
-│   │   ├── .htaccess
-│   │   ├── .htaccess.production
+│   │   ├── models/
+│   │   │   └── example/
+│   │   │       └── example.js
+│   │   ├── vendors/
 │   │   ├── index.html
 │   │   ├── index.production.html
 │   │   ├── init.js
 │   │   └── init.less
-│   ├── client-dist/
-│   ├── server/
+│   ├── public/
+│   ├── tools/
+│   │   ├── tools.bat
+│   │   └── tools.command
 │   ├── bower.json
-│   ├── package.json
-│   └── README.md
-├── vendors/
-│   ├── bower_components/
-│   │   └── …
-│   ├── gruntfiles/
-│   │   └── …
-│   └── node_modules/
-│       └── …
-└── can-boilerplate.command
+│   ├── Gruntfile.js
+│   └── package.json
+├── server/
+└── README.md
 ````
-`repo/client-dev/assets/*/`: media referenced from your JS and/or CSS. Folder included in production build.
+`client/private/` stores your source code.
+`client/public/` stores your compiled/minified production-ready files.
 
-`repo/client-dev/assets/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folder _excluded_ in production build.
+`client/private/vendors/` (bower components) and `client/node_modules/` are gitignore'd. They're only added when the project is [installed](#installing-a-project).
 
-_Any_ empty folder will be excluded from the production build.
+`client/private/media/*/`: media referenced from your CSS. Folders included in production build.
+`client/private/media/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folders *excluded* in production build.
 
-_Any_ empty files in `repo/client-dev/assets/` will be excluded from the production build.
+*Any* empty folders will be excluded from the production build.
+*Any* empty files in any `media/` folder will be excluded from the production build.
 
 
 ## FAQ
@@ -87,19 +104,20 @@ Because `can.route.pushstate` can figure out where it is in relation to its `roo
 3. **Why gzip the *.js and *.css files upon compiling?**  
 You don't have to rely on your webserver to do it for you. Read up on [serving pre-compressed files](http://blog.alien109.com/2009/03/17/gzip-your-javascript/).
 
-4. **How can I get the *.command files to open?**  
+4. **How can I get the *.command file to open?**  
 You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
 
 5. **What changes must I make when moving my production environment?**  
   * Run the compiler and change the app root value.
-  * Move files from `repo/client-dist/` to their destination.
+  * Move files from `client/public/` to their destination.
 
 6. **What changes must I make when moving my development environment?**  
-  * In `repo/client-dev/index.html`, update the `<data>` tag.
-  * In `repo/client-dev/.htaccess`, update the path to `index.html`.
+  * In `client/private/index.html`, update the `<data>` tag.
+  * In `client/private/.htaccess`, update the path to `index.html`.
 
 
 ## Release History
+* 0.6.0 now an npm package with a basic scaffolder, new folder structure again
 * 0.5.0 added Bower, new folder structure, merged tools
 * 0.4.5 tools cleanup, added support for JavaScript and LESS source maps (buggy)
 * 0.4.4 tools and url-helpers cleanup

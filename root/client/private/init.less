@@ -1,0 +1,9 @@
+/* Libraries */<% _.forEach(mixins, function(mixin) { %>
+@import "<%= mixin.path %>";<% }); %><% if (library.path) { %>
+@import "<%= library.path %>";<% } %>
+
+/* Common styles defined here */
+@import "components/app/app";
+
+/* Components */
+//@import "components/someting/something"
