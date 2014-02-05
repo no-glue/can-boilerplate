@@ -3,7 +3,7 @@ var cliTable = require("cli-table");
 
 
 
-module.exports = function(grunt, cwd, title)
+module.exports = function(grunt, cwd, title, express)
 {
 	var dev  = "private/";
 	var dist = "public/";
@@ -84,6 +84,36 @@ module.exports = function(grunt, cwd, title)
 					
 					{ cwd:dist, src:"*.js", dest:dist, ext:".js.gz", expand:true }
 				]
+			}
+		},
+		
+		
+		
+		config:
+		{
+			"appRoot":
+			{
+				options:
+				{
+					variables:
+					{
+						"includereplace.html.options.globals.appRoot": "<%= pkg.appData.appRoot %><%= includereplace.html.options.globals.appRoot %>",
+						"less.compile.options.rootpath":               "<%= pkg.appData.appRoot %><%= less.compile.options.rootpath %>"
+					}
+				}
+			},
+			"sourceMaps":
+			{
+				options:
+				{
+					variables:
+					{
+						"less.compile.options.sourceMap"                    : "<%= pkg.appData.generateSourceMaps %>",
+						"requirejs.compile+merge.options.generateSourceMaps": "<%= pkg.appData.generateSourceMaps %>",
+						"uglify.js.options.sourceMap"                       : "<%= pkg.appData.generateSourceMaps %>",
+						"uglify.js.options.sourceMapIncludeSources"         : "<%= pkg.appData.generateSourceMaps %>"
+					}
+				}
 			}
 		},
 		
@@ -231,22 +261,6 @@ module.exports = function(grunt, cwd, title)
 					],
 					then: function(results)
 					{
-						// App root
-						var appRoot = grunt.config("pkg.appData.appRoot");
-						var var1 = "includereplace.html.options.globals.appRoot";
-						var var2 = "less.compile.options.rootpath";
-						grunt.config( var1, appRoot+grunt.config(var1) );
-						grunt.config( var2, appRoot+grunt.config(var2) );
-						
-						// Source maps
-						if ( !grunt.config("pkg.appData.generateSourceMaps") )
-						{
-							grunt.config( "less.compile.options.sourceMap", false );
-							grunt.config( "requirejs.compile+merge.options.generateSourceMaps", false );
-							grunt.config( "uglify.js.options.sourceMap", false );
-							grunt.config( "uglify.js.options.sourceMapIncludeSources", false );	// TODO: won't be required when contrib-less is updated
-						}
-						
 						if ( grunt.config("saveSettings") )
 						{
 							grunt.file.write(packageFile, JSON.stringify(grunt.config("pkg"),null,"  "));
@@ -308,6 +322,7 @@ module.exports = function(grunt, cwd, title)
 	
 	grunt.loadNpmTasks("can-compile");
 	grunt.loadNpmTasks("grunt-cleanempty");
+	grunt.loadNpmTasks("grunt-config");
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-contrib-copy");
@@ -359,11 +374,9 @@ module.exports = function(grunt, cwd, title)
 	
 	
 	
-	grunt.registerTask("compile",
+	var task =
 	[
-		"welcome",
-		"prompt",			// questionnaire
-		
+		"config",			// apply defaults (or answers from prompt)
 		"clean:pre",		// empty dist
 		"copy",				// copy assets to dist
 		"cleanempty",		// remove empty assets and folders
@@ -378,7 +391,19 @@ module.exports = function(grunt, cwd, title)
 		"clean:post",		// remove compiled templates file and source map
 		
 		"compress"			// gzip css and js
-	]);
+	];
+	
+	if (!express)
+	{
+		task.unshift("welcome", "prompt");
+	}
+	else
+	{
+		// Show headers
+		grunt.log.header = grunt.log.header_backup;
+	}
+	
+	grunt.registerTask("compile", task);
 	
 	
 	

@@ -4,6 +4,11 @@ var cliClear = require("cli-clear");
 
 module.exports = function(grunt)
 {
+	// Skip menus and prompts in express mode
+	var express = grunt.cli.tasks.length;
+	
+	
+	
 	// Initiated in requested task -- to support returning to "default" from external tasks
 	var config =
 	{
@@ -68,12 +73,12 @@ module.exports = function(grunt)
 	function loadGruntfile()
 	{
 		// If requested task is not "default", skip the menu
-		if (grunt.cli.tasks.length > 0)
+		if (express)
 		{
 			grunt.initConfig(config);
 		}
 		
-		require("./tools/lib/"+this.name)(grunt, process.cwd(), grunt.config("title").toLowerCase() );
+		require("./tools/lib/"+this.name)(grunt, process.cwd(), grunt.config("title").toLowerCase(), express );
 		
 		grunt.task.run(this.name);
 	}

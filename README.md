@@ -1,4 +1,4 @@
-# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.png)](http://badge.fury.io/js/can-boilerplate)
+# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.png)](http://badge.fury.io/js/can-boilerplate) [![Build Status](https://secure.travis-ci.org/stevenvachon/can-boilerplate.png)](http://travis-ci.org/stevenvachon/can-boilerplate)
 
 > Get a head start on your [CanJS](http://canjs.com/) v2.x project.
 
@@ -22,18 +22,17 @@ canboilerplate
 That's it. ☺︎
 
 ### It currently comes packed with:
-* A project scaffolder
-* [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
-* [LESS](http://lesscss.org/) + [3L](http://mateuszkocz.github.io/3l/)
-* [RequireJS](http://requirejs.org/) + [almond](https://github.com/jrburke/almond)
-* [jQuery](http://jquery.com/) or [Zepto](http://jquery.com/) or others
-* [Bootstrap](http://getbootstrap.com/) or [Foundation](http://foundation.zurb.com/) or [Pure](http://purecss.io/)
+* A project scaffolder with optional libraries:
+  * [jQuery](http://jquery.com/) or [Zepto](http://jquery.com/) or others
+  * [Bootstrap](http://getbootstrap.com/) or [Foundation](http://foundation.zurb.com/) or [Pure](http://purecss.io/)
+  * [3L](http://mateuszkocz.github.io/3l/)
+  * [jQuery UI](http://jqueryui.com/)
+* [CanJS](http://canjs.com/)+[can-compile](https://github.com/daffl/can-compile), [RequireJS](http://requirejs.org/)+[almond](https://github.com/jrburke/almond), [LESS](http://lesscss.org/)
 * js/css compiler+minifier and gif/png/jpg/svg optimizer
 * A simple webserver that enables the use of `can.route.pushstate` on all relative 404 routes
 * [Grunt](http://gruntjs.com/) + [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.6.1` test with [Travis CI](https://travis-ci.org/)
 * `0.6.x` test on Windows
 * `0.7` add support for [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
 * `0.8` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
@@ -43,10 +42,10 @@ That's it. ☺︎
 ---
 
 ### "Installing" a Project
-Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/` to install the build tools and all client-side dependencies. Optionally, you can manually run `npm install` and `bower install`.
+Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/` to install the build tools and all client-side dependencies. Optionally, you can manually run `npm install` and `bower install` within `client/`.
 
 ### Compiling a Project
-Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/`. Optionally, you can manually run `grunt`.
+Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/`. Optionally, you can manually run `grunt compile` within `client/` to skip all menus and prompts.
 
 ![Compile example](https://raw.github.com/stevenvachon/can-boilerplate/master/misc/compile.gif)
 
@@ -95,15 +94,15 @@ Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/to
 ├── server/
 └── README.md
 ````
+`client/public/` stores your compiled/minified production-ready files.  
 `client/private/` stores your source code.
-`client/public/` stores your compiled/minified production-ready files.
 
 `client/private/vendors/` (bower components) and `client/node_modules/` are gitignore'd. They're only added when the project is [installed](#installing-a-project).
 
-`client/private/media/*/`: media referenced from your CSS. Folders included in production build.
-`client/private/media/*-embedded/`: media compiled into production CSS file (using LESS' `data-uri()`). Folders *excluded* in production build.
+`client/private/media/*/` stores media referenced from your CSS. Folders included in production build.  
+`client/private/media/*-embedded/` stores media compiled into the production CSS file (using LESS' `data-uri()`). Folders *excluded* in production build.
 
-*Any* empty folders will be excluded from the production build.
+*Any* empty folders will be excluded from the production build.  
 *Any* empty files in any `media/` folder will be excluded from the production build.
 
 
@@ -118,14 +117,22 @@ Because `can.route.pushstate` can figure out where it is in relation to its `roo
 You don't have to rely on your webserver to do it for you. Read up on [serving pre-compressed files](http://blog.alien109.com/2009/03/17/gzip-your-javascript/).
 
 4. **What changes must I make when moving my production environment?**  
-  * Run the compiler and change the app root value.
-  * Move files from `client/public/` to their destination.
+  1. Run the compiler and change the app root value.
+  2. Move files from `client/public/` to their destination.
 
 5. **What changes must I make when moving my development environment?**  
 In `client/private/index.html`, update the `<data>` tag.
 
+6. **How can I upgrade an existing project with a new version of the tools?**
+  1. Generate a temporary project in another directory.
+  2. By copying & pasting from the temporary project, replace the following in your project:
+    * client/Gruntfile.js
+    * client/package.json
+    * client/tools/
+
 
 ## Release History
+* 0.6.1 added [Travis CI](https://travis-ci.org/) support to projects, cleanup
 * 0.6.0 now an npm package with a scaffolder, new folder structure again
 * 0.5.0 added Bower, new folder structure, merged tools
 * 0.4.5 tools cleanup, added support for JavaScript and LESS source maps (buggy)

@@ -1,6 +1,4 @@
 var cliTable = require("cli-table");
-var fs = require("fs");
-var rimraf = require("rimraf");
 
 var runCommand = require("./util/runCommand");
 
@@ -27,7 +25,7 @@ module.exports = function(grunt, cwd, title)
 							message: "What would you like to do?",
 							choices: [
 								{ name:"Update all", value:"update" },
-								{ name:"Reinstall all", value:"install" },
+								{ name:"Reinstall all", value:"install" },	// must be "install" for npm/bower
 								"---",
 								{ name:"⟵ Go back", value:"return" }
 							]
@@ -86,16 +84,14 @@ module.exports = function(grunt, cwd, title)
 	
 	grunt.registerTask("clear", "Remove dependencies for a reinstall", function()
 	{
+		var fs = require("fs");
 		var path = require("path");
 		
 		["private/vendors/", "node_modules/"].forEach( function(element, index, array)
 		{
 			if ( fs.existsSync(element) )
 			{
-				rimraf.sync(element, function(error)
-				{
-					grunt.fail.fatal(error);
-				});
+				grunt.file.delete(element);
 				
 				grunt.log.writeln("Removed ".cyan+path.resolve(element));
 			}

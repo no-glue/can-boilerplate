@@ -58,6 +58,7 @@ exports.finished = function(endGruntTask)
 	// Tools should not run after generating a project
 	else
 	{
+		// Hack
 		require("grunt").cli(
 		{
 			base: client,
@@ -68,10 +69,16 @@ exports.finished = function(endGruntTask)
 
 
 
-if (process.argv[2] == "tools")
+// Not called from parent Grunt task
+if (process.argv[2] != undefined)
 {
-	// Remove argument to avoid issues moving forward
-	process.argv.splice(2);
+	// Remove "tools" as it is not a Grunt task
+	if (process.argv[2] == "tools")
+	{
+		process.argv.splice(2);
+	}
+	
+	// Any other parameter will be passed as a Grunt task
 	
 	exports.init();
 }
