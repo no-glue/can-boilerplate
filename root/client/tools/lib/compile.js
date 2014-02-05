@@ -1,13 +1,12 @@
 var cliClear = require("cli-clear");
 var cliTable = require("cli-table");
-var path = require("path");
 
 
 
 module.exports = function(grunt, cwd, title)
 {
-	var dev  = path.resolve("private/");
-	var dist = path.resolve("public/");
+	var dev  = "private/";
+	var dist = "public/";
 	
 	var packageFile = "package.json";
 	
@@ -23,8 +22,8 @@ module.exports = function(grunt, cwd, title)
 		{
 			"templates":
 			{
-				src: dev+"/components/**/*.mustache",
-				out: dist+"/app.templates.js",
+				src: dev+"components/**/*.mustache",
+				out: dist+"app.templates.js",
 				wrapper: 'define(["can/view/mustache"], function(can) {\n{{{content}}}\n});',
 				
 				normalizer: function(filename)
@@ -38,19 +37,15 @@ module.exports = function(grunt, cwd, title)
 		
 		clean:
 		{
-			options:
-			{
-				force: true
-			},
 			"post":
 			{
-				src: dist+"/app.templates.js"
+				src: dist+"app.templates.js"
 			},
 			"pre":
 			{
 				files:
 				[
-					{ src:dist+"/*", dot:true }
+					{ src:dist+"*", dot:true }
 				]
 			}
 		},
@@ -59,13 +54,9 @@ module.exports = function(grunt, cwd, title)
 		
 		cleanempty:
 		{
-			options:
-			{
-				force: true
-			},
 			"assets":
 			{
-				src: dist+"/media/**/*"
+				src: dist+"media/**/*"
 			},
 			"app root":
 			{
@@ -73,7 +64,7 @@ module.exports = function(grunt, cwd, title)
 				{
 					files: false	// in case something's empty, easier to debug
 				},
-				src: dist+"/**/*"
+				src: dist+"**/*"
 			}
 		},
 		
@@ -104,7 +95,7 @@ module.exports = function(grunt, cwd, title)
 			{
 				files:
 				[
-					{ cwd:dev+"/media/", src:["**","!*-embedded/**"], dest:dist+"/assets/", expand:true }
+					{ cwd:dev+"media/", src:["**","!*-embedded/**"], dest:dist+"media/", expand:true }
 				]
 			}
 		},
@@ -120,8 +111,8 @@ module.exports = function(grunt, cwd, title)
 					banner: "/* v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
 					keepSpecialComments: 0
 				},
-				src:  dist+"/app.css",
-				dest: dist+"/app.css"
+				src:  dist+"app.css",
+				dest: dist+"app.css"
 			}
 		},
 		
@@ -134,18 +125,6 @@ module.exports = function(grunt, cwd, title)
 				prefix: "{{",
 				suffix: "}}"
 			},
-			/*"apache":
-			{
-				options:
-				{
-					globals:
-					{
-						path: "index.html"	// gets prefixed
-					}
-				},
-				src:  dev+".htaccess.production",
-				dest: dist+".htaccess"
-			},*/
 			"html":
 			{
 				options:
@@ -156,8 +135,8 @@ module.exports = function(grunt, cwd, title)
 						version:     "<%= pkg.version %>"
 					}
 				},
-				src:  dev+"/index.production.html",
-				dest: dist+"/index.html"
+				src:  dev+"index.production.html",
+				dest: dist+"index.html"
 			}
 		},
 		
@@ -176,9 +155,9 @@ module.exports = function(grunt, cwd, title)
 					rootpath: "",	// gets prefixed
 					
 					sourceMap: true,	// gets changed
-					sourceMapFilename: dist+"/app.css.map",
+					sourceMapFilename: dist+"app.css.map",
 					sourceMapURL: "<%= pkg.appData.appRoot %>app.css.map",
-					sourceMapBasepath: "<%= pkg.appData.appRoot %>",	// DOES NOTHING in contrib-less v0.9.0
+					//sourceMapBasepath: "<%= pkg.appData.appRoot %>",	// DOES NOTHING in contrib-less v0.9.0
 					outputSourceFiles: true
 				},
 				//cleancssOptions:
@@ -186,8 +165,8 @@ module.exports = function(grunt, cwd, title)
 					//banner: "/* <%= pkg.name %> v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
 					//keepSpecialComments: 0
 				//},
-				src:  dev+"/init.less",
-				dest: dist+"/app.css"
+				src:  dev+"init.less",
+				dest: dist+"app.css"
 			}
 		},
 		
@@ -195,7 +174,7 @@ module.exports = function(grunt, cwd, title)
 		
 		prompt:
 		{
-			"config":
+			"settings":
 			{
 				options:
 				{
@@ -219,7 +198,7 @@ module.exports = function(grunt, cwd, title)
 							}
 						},
 						{
-							config: "pkg.config.appRoot",
+							config: "pkg.appData.appRoot",
 							type: "input",
 							message: "Production app root",
 							default: "<%= pkg.appData.appRoot %>",
@@ -229,7 +208,7 @@ module.exports = function(grunt, cwd, title)
 							}
 						},
 						{
-							config: "pkg.config.generateSourceMaps",
+							config: "pkg.appData.generateSourceMaps",
 							type: "confirm",
 							message: "Generate source maps?",
 							default: "<%= pkg.appData.generateSourceMaps %>",
@@ -249,7 +228,33 @@ module.exports = function(grunt, cwd, title)
 								return answers["defaultSettings"] === false;
 							}
 						}
-					]
+					],
+					then: function(results)
+					{
+						// App root
+						var appRoot = grunt.config("pkg.appData.appRoot");
+						var var1 = "includereplace.html.options.globals.appRoot";
+						var var2 = "less.compile.options.rootpath";
+						grunt.config( var1, appRoot+grunt.config(var1) );
+						grunt.config( var2, appRoot+grunt.config(var2) );
+						
+						// Source maps
+						if ( !grunt.config("pkg.appData.generateSourceMaps") )
+						{
+							grunt.config( "less.compile.options.sourceMap", false );
+							grunt.config( "requirejs.compile+merge.options.generateSourceMaps", false );
+							grunt.config( "uglify.js.options.sourceMap", false );
+							grunt.config( "uglify.js.options.sourceMapIncludeSources", false );	// TODO: won't be required when contrib-less is updated
+						}
+						
+						if ( grunt.config("saveSettings") )
+						{
+							grunt.file.write(packageFile, JSON.stringify(grunt.config("pkg"),null,"  "));
+						}
+						
+						// Show headers
+						grunt.log.header = grunt.log.header_backup;
+					}
 				}
 			}
 		},
@@ -265,15 +270,15 @@ module.exports = function(grunt, cwd, title)
 					optimize: "none",
 					generateSourceMaps: true,	// gets changed
 					
-					baseUrl: dev,
-					name: dev+"/vendors/almond/almond",
+					baseUrl: dev,{% if (loaderShim) { %}
+					name: "{%= loaderShim.substr(0, loaderShim.lastIndexOf('.js')) %}",{% } %}
 					include: "init",
-					out: dist+"/app.js",
+					out: dist+"app.js",
 					
-					mainConfigFile: dev+"/init.js",
+					mainConfigFile: dev+"init.js",
 					paths:
 					{
-						templates: dist+"/app.templates"
+						templates: "../"+dist+"app.templates"
 					}
 				}
 			}
@@ -289,13 +294,12 @@ module.exports = function(grunt, cwd, title)
 				{
 					banner: "/* v<%= pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
 					sourceMap: true,	// gets changed
-					sourceMapIn:   dist+"/app.js.map",	// input from requirejs
-					sourceMapName: dist+"/app.js.map",	// output
-					sourceMapRoot: dev,
+					sourceMapIn:   dist+"app.js.map",	// input from requirejs
+					sourceMapName: dist+"app.js.map",	// output
 					sourceMapIncludeSources: true
 				},
-				src:  dist+"/app.js",
-				dest: dist+"/app.js"
+				src:  dist+"app.js",
+				dest: dist+"app.js"
 			}
 		}
 	});
@@ -307,43 +311,12 @@ module.exports = function(grunt, cwd, title)
 	grunt.loadNpmTasks("grunt-contrib-clean");
 	grunt.loadNpmTasks("grunt-contrib-compress");
 	grunt.loadNpmTasks("grunt-contrib-copy");
-	grunt.loadNpmTasks("grunt-contrib-cssmin");	// won't be required when contrib-less gets cleancssOptions
+	grunt.loadNpmTasks("grunt-contrib-cssmin");	// TODO: won't be required when contrib-less gets cleancssOptions
 	grunt.loadNpmTasks("grunt-contrib-less");
 	grunt.loadNpmTasks("grunt-contrib-requirejs");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-include-replace");
 	grunt.loadNpmTasks("grunt-prompt");
-	
-	
-	
-	grunt.registerTask("prompt-finished", "", function()
-	{
-		// App root
-		var appRoot = grunt.config("pkg.config.appRoot");
-		var var1 = "includereplace.html.options.globals.appRoot";
-		var var2 = "includereplace.apache.options.globals.path";
-		var var3 = "less.compile.options.rootpath";
-		grunt.config( var1, appRoot+grunt.config(var1) );
-		grunt.config( var2, appRoot+grunt.config(var2) );
-		grunt.config( var3, appRoot+grunt.config(var3) );
-		
-		// Source maps
-		if ( !grunt.config("pkg.config.generateSourceMaps") )
-		{
-			grunt.config( "less.compile.options.sourceMap", false );
-			grunt.config( "requirejs.compile+merge.options.generateSourceMaps", false );
-			grunt.config( "uglify.js.options.sourceMap", false );
-			grunt.config( "uglify.js.options.sourceMapIncludeSources", false );
-		}
-		
-		if ( grunt.config("saveSettings") )
-		{
-			grunt.file.write(packageFile, JSON.stringify(grunt.config("pkg"),null,"  "));
-		}
-		
-		// Show headers
-		grunt.log.header = grunt.log.header_backup;
-	});
 	
 	
 	
@@ -353,13 +326,13 @@ module.exports = function(grunt, cwd, title)
 		
 		cliClear( function()
 		{
-			var description = "PRODUCTION COMPILE".underline;
-			description += "\nThis will minify+compress all dependencies (css,js,etc)";
+			var description = "PRODUCTION COMPILER".underline+" ("+title+")";
+			description += "\n\nThis will minify+compress all dependencies (css,js,etc)";
 			description += "\nfrom: "+dev.yellow;
 			description += "\ninto: "+dist.yellow;
 			
 			var defaults = "";
-			for (var i=0, questions=grunt.config("prompt.config.options.questions"), numQuestions=questions.length; i<numQuestions; i++)
+			for (var i=0, questions=grunt.config("prompt.settings.options.questions"), numQuestions=questions.length; i<numQuestions; i++)
 			{
 				var question = questions[i];
 				
@@ -390,12 +363,11 @@ module.exports = function(grunt, cwd, title)
 	[
 		"welcome",
 		"prompt",			// questionnaire
-		"prompt-finished",
 		
 		"clean:pre",		// empty dist
 		"copy",				// copy assets to dist
 		"cleanempty",		// remove empty assets and folders
-		"includereplace",	// copy html+apache files to dist with inserted variables
+		"includereplace",	// copy specific files to dist with inserted variables
 		
 		"less",				// compile less to css
 		"cssmin",			// minify css further (removes redundancies and special comments)

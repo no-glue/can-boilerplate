@@ -1,41 +1,54 @@
-# can-boilerplate
+# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.png)](http://badge.fury.io/js/can-boilerplate)
 
 > Get a head start on your [CanJS](http://canjs.com/) v2.x project.
 
 *How it can help you:*
 * Get started quickly with Development and Production environment "shell" files
-* Avoid feeling overwhelmed with a folder structure that's simple and light
+* Avoid feeling overwhelmed with a folder structure that's simple and light but not hindering
 * Save time with compilers and optimizers that do not require the use of a command line
 
 
 ## Getting Started
 
 This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Unix-based OS**.
+To install, type this at the command line:
+```
+npm install can-boilerplate -g
+```
+After that, you can generate a project any time with:
+```
+canboilerplate
+```
+That's it. ☺︎
 
 ### It currently comes packed with:
+* A project scaffolder
 * [CanJS](http://canjs.com/) + [can-compile](https://github.com/daffl/can-compile)
-* [jQuery](http://jquery.com/)
 * [LESS](http://lesscss.org/) + [3L](http://mateuszkocz.github.io/3l/)
-* [RequireJS](http://requirejs.org/) + [Almond](https://github.com/jrburke/almond)
+* [RequireJS](http://requirejs.org/) + [almond](https://github.com/jrburke/almond)
+* [jQuery](http://jquery.com/) or [Zepto](http://jquery.com/) or others
+* [Bootstrap](http://getbootstrap.com/) or [Foundation](http://foundation.zurb.com/) or [Pure](http://purecss.io/)
 * js/css compiler+minifier and gif/png/jpg/svg optimizer
-* Apache .htaccess files that enable `can.route.pushstate` use on all relative 404 routes
-* [Grunt](http://gruntjs.com/) and [Bower](http://bower.io/) (no need to install them globally)
+* A simple webserver that enables the use of `can.route.pushstate` on all relative 404 routes
+* [Grunt](http://gruntjs.com/) + [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.6.5` test with [Travis CI](https://travis-ci.org/)
+* `0.6.1` test with [Travis CI](https://travis-ci.org/)
+* `0.6.x` test on Windows
 * `0.7` add support for [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
 * `0.8` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
 * `0.9` possibly add hooks to [Yeoman](http://yeoman.io/)
 * `1.0` ?
 
-### Generating a New Project
-A scaffolder is provided in the `canboilerplate` command line. It will also run the [install](#installing-a-project) automatically.
+---
 
 ### "Installing" a Project
 Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/` to install the build tools and all client-side dependencies. Optionally, you can manually run `npm install` and `bower install`.
 
 ### Compiling a Project
 Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/`. Optionally, you can manually run `grunt`.
+
+![Compile example](https://raw.github.com/stevenvachon/can-boilerplate/master/misc/compile.gif)
 
 ## Project Folder Structure
 ````
@@ -104,20 +117,16 @@ Because `can.route.pushstate` can figure out where it is in relation to its `roo
 3. **Why gzip the *.js and *.css files upon compiling?**  
 You don't have to rely on your webserver to do it for you. Read up on [serving pre-compressed files](http://blog.alien109.com/2009/03/17/gzip-your-javascript/).
 
-4. **How can I get the *.command file to open?**  
-You just need to [set ownership of the file to yourself](https://discussions.apple.com/message/16030281#16030281).
-
-5. **What changes must I make when moving my production environment?**  
+4. **What changes must I make when moving my production environment?**  
   * Run the compiler and change the app root value.
   * Move files from `client/public/` to their destination.
 
-6. **What changes must I make when moving my development environment?**  
-  * In `client/private/index.html`, update the `<data>` tag.
-  * In `client/private/.htaccess`, update the path to `index.html`.
+5. **What changes must I make when moving my development environment?**  
+In `client/private/index.html`, update the `<data>` tag.
 
 
 ## Release History
-* 0.6.0 now an npm package with a basic scaffolder, new folder structure again
+* 0.6.0 now an npm package with a scaffolder, new folder structure again
 * 0.5.0 added Bower, new folder structure, merged tools
 * 0.4.5 tools cleanup, added support for JavaScript and LESS source maps (buggy)
 * 0.4.4 tools and url-helpers cleanup

@@ -1,5 +1,5 @@
-/* Libraries */<% _.forEach(mixins, function(mixin) { %>
-@import "<%= mixin.path %>";<% }); %><% if (library.path) { %>
+/* Libraries */<% _.forEach(extras, function(extra) { %>
+@import <% if (extra.path.indexOf(".css")==extra.path.length-4) { %>(less) <% } %>"<%= extra.path %>";<% }); %><% if (library.path) { %>
 @import "<%= library.path %>";<% } %>
 
 /* Common styles defined here */

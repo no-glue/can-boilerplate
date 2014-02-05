@@ -12,7 +12,7 @@ require.config(
 	{
 		// Main Libraries
 		"can":		"vendors/canjs/amd/can",
-		"<%= library.name %>":	"<%= library.path %>"
+		"<%= library.name %>":	"<%= library.path.substr(0, library.path.lastIndexOf(".js")) %>"
 	},
 	shim:
 	{

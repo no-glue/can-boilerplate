@@ -110,7 +110,7 @@ module.exports = function(grunt, cwd, title)
 		
 		cliClear( function()
 		{
-			var description = "SIMPLE SERVER".underline+" ("+title+")";
+			var description = "SIMPLE WEBSERVER".underline+" ("+title+")";
 			description += "\n\nThis will route 404s to /index.html for your app to handle.";
 			
 			var table = new cliTable({ colWidths:[72] });

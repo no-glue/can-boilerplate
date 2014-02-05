@@ -1,10 +1,5 @@
 {
   "name": "your-project",
   "private": true,
-  "dependencies": {
-    "almond": "latest",
-    "canjs": "latest",
-    "less": "latest",
-    "requirejs": "latest"
-  }
+  "dependencies": {}
 }

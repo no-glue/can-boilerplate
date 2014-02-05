@@ -7,8 +7,9 @@ var client = require("path").resolve(__dirname+"/../../");
 
 exports.init = function(endGruntTask)
 {
-	var hasBowerComponents = fs.existsSync(client+"/private/vendors/");
-	var hasNodeModules     = fs.existsSync(client+"/node_modules/");
+	// If parent Grunt task, reinstall everything
+	var hasBowerComponents = (endGruntTask) ? false : fs.existsSync(client+"/private/vendors/");
+	var hasNodeModules     = (endGruntTask) ? false : fs.existsSync(client+"/node_modules/");
 	
 	if (hasNodeModules)
 	{
@@ -49,7 +50,7 @@ exports.init = function(endGruntTask)
 
 exports.finished = function(endGruntTask)
 {
-	// Complete any parent grunt task
+	// Complete any parent Grunt task
 	if (endGruntTask)
 	{
 		endGruntTask();

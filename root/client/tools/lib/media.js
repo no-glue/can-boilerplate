@@ -96,7 +96,7 @@ module.exports = function(grunt, cwd, title)
 		
 		cliClear( function()
 		{
-			var description = "MINIFY MEDIA".underline+" ("+title+")";
+			var description = "MEDIA MINIFIER".underline+" ("+title+")";
 			description += "\n\nThis will minify all png,jpg,gif,svg files";
 			description += "\nwithin: "+media.yellow;
 			description += "\n\nRunning this on your source files rather than production greatly";
