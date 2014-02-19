@@ -10,7 +10,7 @@
 
 ## Getting Started
 
-This plugin requires [NodeJS](http://nodejs.org/) `~0.8` and **currently only works on a Unix-based OS**.
+This plugin requires [NodeJS](http://nodejs.org/) `~0.10`, XCode (currently) and a **Unix-based OS** (currently).
 To install, type this at the command line:
 ```
 npm install can-boilerplate -g
@@ -33,11 +33,10 @@ That's it. ☺︎
 * [Grunt](http://gruntjs.com/) + [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.6.x` test on Windows
 * `0.7` add support for [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
 * `0.8` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
 * `0.9` possibly add hooks to [Yeoman](http://yeoman.io/)
-* `1.0` ?
+* `1.0` test on Windows
 
 ---
 
@@ -132,6 +131,7 @@ In `client/private/index.html`, update the `<data>` tag.
 
 
 ## Release History
+* 0.6.2 suggests only available ports to webserver
 * 0.6.1 added [Travis CI](https://travis-ci.org/) support to projects, cleanup
 * 0.6.0 now an npm package with a scaffolder, new folder structure again
 * 0.5.0 added Bower, new folder structure, merged tools

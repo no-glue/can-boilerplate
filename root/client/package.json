@@ -29,8 +29,12 @@
     "grunt-contrib-requirejs": "~0.4",
     "grunt-contrib-uglify": "~0.3",
     "grunt-include-replace": "~1.2",
-    "grunt-prompt": "~0.2",
-    "grunt-svgmin": "~0.3"
+    "grunt-prompt": "~1.0",
+    "grunt-svgmin": "~0.3",
+    "portscanner": "~0.2"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
   },
   "appData": {
     "appRoot": "/",
