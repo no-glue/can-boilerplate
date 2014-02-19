@@ -1,38 +1,77 @@
-var cliClear = require("cli-clear");
-
-
-
 module.exports = function(grunt)
 {
-	// Skip menus and prompts in express mode
-	var express = grunt.cli.tasks.length;
-	
-	
-	
-	// Initiated in requested task -- to support returning to "default" from external tasks
-	var config =
+	grunt.initConfig(
 	{
-		title: "{%= title %} v{%= version %}",
+		cfg:
+		{
+			title: "{%= title %} v{%= version %}",
+			title_sub: "(<%= cfg.title.toLowerCase() %>)",
+			
+			expressMode: grunt.cli.tasks.length,
+			helpMode: grunt.cli.options.help,
+			
+			devFolder: "private",
+			distFolder: "public",
+			
+			pkgFile: "package.json",
+			pkg: grunt.file.readJSON("package.json"),
+			
+			sections:
+			{
+				"start":
+				{
+					action: ""
+				}
+			}
+		},
+		
+		
+		
+		// Tasks
+		
+		
+		
+		content: 
+		{
+			options:
+			{
+				clearBefore: true,
+				table:
+				{
+					colWidths: [72]
+				}
+			},
+			"start":
+			{
+				text: "<%= cfg.title %>".underline
+			}
+		},
+		
+		
 		
 		prompt:
 		{
-			"action":
+			options:
+			{
+				gruntLogHeader: false
+			},
+			"start":
 			{
 				options:
 				{
 					questions:
 					[
 						{
-							config: "action",
+							config: "cfg.sections.start.action",
 							type: "list",
 							message: "What would you like to do?",
 							choices: [
-								{ name:"Compile for production", value:"compile" },
-								{ name:"Run tests (coming soon)", value:"test" },
-								{ name:"Minify media", value:"media" },
+								{ name:"Compile for production", value:"compile-w-menu" },
+								{ name:"Run tests", value:"test-w-menu" },
+								{ name:"Minify media", value:"media-w-menu" },
 								{ name:"Generate documentation (coming soon)", value:"docs" },
 								"---",
-								{ name:"Start a simple webserver", value:"server" },
+								{ name:"Start a simple webserver", value:"server-w-menu" },
 								{ name:"Manage dependencies", value:"deps" },
 								"---",
 								{ name:"Exit", value:"exit" }
@@ -41,82 +80,68 @@ module.exports = function(grunt)
 					],
 					then: function(results)
 					{
-						if (results["action"] != "exit")
+						var action = results["cfg.sections.start.action"];
+						
+						if (action != "exit")
 						{
-							grunt.task.run( results["action"] );
-						}
-						else
-						{
-							// Headers temporarily hidden.. needs space
-							grunt.log.writeln("");
+							loadRemainingTasks();
 							
-							grunt.util.exit();
+							grunt.task.run(action);
 						}
 					}
 				}
 			}
 		}
-	};
+	});
 	
 	
 	
+	require("grunt-config-merge")(grunt);
+	require("grunt-log-headers")(grunt);
+	
+	grunt.loadNpmTasks("grunt-content");
 	grunt.loadNpmTasks("grunt-prompt");
 	
 	
 	
-	// Hide headers
-	grunt.log.header_backup = grunt.log.header;
-	grunt.log.header = function(){}
-	
-	
-	
-	function loadGruntfile()
+	// Not loaded immediately to speed up display of menu
+	function loadRemainingTasks()
 	{
-		// If requested task is not "default", skip the menu
-		if (express)
-		{
-			grunt.initConfig(config);
-		}
+		grunt.loadNpmTasks("can-boilerplate-utils");
+		grunt.loadNpmTasks("can-compile");
+		grunt.loadNpmTasks("grunt-cleanempty");
+		grunt.loadNpmTasks("grunt-config");
+		grunt.loadNpmTasks("grunt-contrib-clean");
+		grunt.loadNpmTasks("grunt-contrib-compress");
+		grunt.loadNpmTasks("grunt-contrib-connect");
+		grunt.loadNpmTasks("grunt-contrib-copy");
+		grunt.loadNpmTasks("grunt-contrib-cssmin");	// TODO: won't be required when contrib-less gets cleancssOptions
+		grunt.loadNpmTasks("grunt-contrib-imagemin");
+		grunt.loadNpmTasks("grunt-contrib-less");
+		grunt.loadNpmTasks("grunt-contrib-requirejs");
+		grunt.loadNpmTasks("grunt-contrib-uglify");
+		grunt.loadNpmTasks("grunt-include-replace");
+		grunt.loadNpmTasks("grunt-mocha");
+		grunt.loadNpmTasks("grunt-myth");
+		grunt.loadNpmTasks("grunt-svgmin");
 		
-		require("./tools/lib/"+this.name)(grunt, process.cwd(), grunt.config("title").toLowerCase(), express );
-		
-		grunt.task.run(this.name);
+		grunt.task.loadTasks("tools/lib/tasks");
 	}
 	
 	
 	
-	// Command line task shortcuts
-	config.prompt.action.options.questions[0].choices.forEach( function(element, index, array)
+	// For command line use
+	if ( grunt.config("cfg.expressMode") || grunt.config("cfg.helpMode") )
 	{
-		if (typeof element == "object")
-		{
-			if (element.value != "exit")
-			{
-				grunt.registerTask(element.value, element.name, loadGruntfile);
-			}
-		}
-	});
-	
-	
-	
-	grunt.registerTask("default", "*", function()
-	{
-		grunt.initConfig(config);
+		loadRemainingTasks();
 		
-		var done = this.async();
-		
-		cliClear( function()
-		{
-			grunt.log.writeln( grunt.config("title").underline );
-			
-			// Headers temporarily hidden.. needs space
-			grunt.log.writeln("");
-			
-			done();
-			
-			grunt.task.run("prompt");
-		});
-	});
+		// continues onto task specified at command line..
+	}
+	
+	
+	
+	// Other tasks ran from menu
+	grunt.registerTask("default", ["content:start","prompt:start"]);
 	
 	
 	

@@ -1,6 +1,6 @@
 /* Libraries */<% _.forEach(extras, function(extra) { %>
-@import <% if (extra.path.indexOf(".css")==extra.path.length-4) { %>(less) <% } %>"<%= extra.path %>";<% }); %><% if (library.path) { %>
-@import "<%= library.path %>";<% } %>
+@import <% if (extra.path.indexOf(".css")==extra.path.length-4)     { %>(less) <% } %>"<%= extra.path %>";<% }); %><% if (library.path) { %>
+@import <% if (library.path.indexOf(".css")==library.path.length-4) { %>(less) <% } %>"<%= library.path %>";<% } %>
 
 /* Common styles defined here */
 @import "components/app/app";

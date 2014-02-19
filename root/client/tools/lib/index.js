@@ -1,13 +1,14 @@
 var fs = require("fs");
-var runCommand = require("./util/runCommand");
 
 var client = require("path").resolve(__dirname+"/../../");
 
 
 
-exports.init = function(endGruntTask)
+function init(endGruntTask)
 {
-	// If parent Grunt task, reinstall everything
+	clearTimeout(noParentGruntTask);
+	
+	// If parent Grunt task, install everything
 	var hasBowerComponents = (endGruntTask) ? false : fs.existsSync(client+"/private/vendors/");
 	var hasNodeModules     = (endGruntTask) ? false : fs.existsSync(client+"/node_modules/");
 	
@@ -15,30 +16,30 @@ exports.init = function(endGruntTask)
 	{
 		if (hasBowerComponents)
 		{
-			exports.finished(endGruntTask);
+			finished(endGruntTask);
 		}
 		else
 		{
-			runCommand("bower", "install", client, function()
+			bowerInstall( function()
 			{
-				exports.finished(endGruntTask);
+				finished(endGruntTask);
 			});
 		}
 	}
 	else
 	{
-		runCommand("npm", "install", client, function()
+		npmInstall( function()
 		{
 			if (!hasBowerComponents)
 			{
-				runCommand("bower", "install", client, function()
+				bowerInstall( function()
 				{
-					exports.finished(endGruntTask);
+					finished(endGruntTask);
 				});
 			}
 			else
 			{
-				exports.finished(endGruntTask);
+				finished(endGruntTask);
 			}
 		});
 	}
@@ -48,7 +49,17 @@ exports.init = function(endGruntTask)
 
 
 
-exports.finished = function(endGruntTask)
+function bowerInstall(callback)
+{
+	// Use Bower API instead of CLI so that it doesn't need to be installed globally
+	var bower = require("can-boilerplate-utils").bower();
+	
+	bower.install(callback, {cwd:client});
+}
+
+
+
+function finished(endGruntTask)
 {
 	// Complete any parent Grunt task
 	if (endGruntTask)
@@ -61,6 +72,7 @@ exports.finished = function(endGruntTask)
 		// Hack
 		require("grunt").cli(
 		{
+			//stack: true,	// debug
 			base: client,
 			gruntfile: client+"/Gruntfile.js"
 		});
@@ -69,16 +81,28 @@ exports.finished = function(endGruntTask)
 
 
 
-// Not called from parent Grunt task
-if (process.argv[2] != undefined)
+function npmInstall(callback)
 {
-	// Remove "tools" as it is not a Grunt task
-	if (process.argv[2] == "tools")
+	// NPM comes installed globally with Node, so it's "safe" to use CLI
+	require("child_process").spawn("npm", ["install"], {cwd:client, stdio:"inherit"}).on("exit", function(code)
 	{
-		process.argv.splice(2);
-	}
-	
-	// Any other parameter will be passed as a Grunt task
-	
-	exports.init();
+		this.removeAllListeners();
+		
+		callback();
+	});
 }
+
+
+
+// Gets cancelled in init() when called from parent Grunt task
+var noParentGruntTask = setTimeout( function()
+{
+	init();
+});
+
+
+
+module.exports =
+{
+	init: init
+};

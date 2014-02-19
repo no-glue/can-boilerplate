@@ -1,23 +1,23 @@
-# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.png)](http://badge.fury.io/js/can-boilerplate) [![Build Status](https://secure.travis-ci.org/stevenvachon/can-boilerplate.png)](http://travis-ci.org/stevenvachon/can-boilerplate)
+# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.png)](http://badge.fury.io/js/can-boilerplate) [![Build Status](https://secure.travis-ci.org/stevenvachon/can-boilerplate.png)](http://travis-ci.org/stevenvachon/can-boilerplate) [![Coverage Status](https://coveralls.io/repos/stevenvachon/can-boilerplate/badge.png)](https://coveralls.io/r/stevenvachon/can-boilerplate) [![Dependency Status](https://david-dm.org/stevenvachon/can-boilerplate.png)](https://david-dm.org/stevenvachon/can-boilerplate)
 
 > Get a head start on your [CanJS](http://canjs.com/) v2.x project.
 
 *How it can help you:*
-* Get started quickly with Development and Production environment "shell" files
+* Get started quickly with customized Development and Production environment "shell" files
 * Avoid feeling overwhelmed with a folder structure that's simple and light but not hindering
 * Save time with compilers and optimizers that do not require the use of a command line
 
 
 ## Getting Started
 
-This plugin requires [NodeJS](http://nodejs.org/) `~0.10`, XCode (currently) and a **Unix-based OS** (currently).
+This plugin requires [Node.js](http://nodejs.org/) `~0.10`. Temporarily, it also requires [Xcode](https://developer.apple.com/xcode/) and a **Unix-based OS**.  
 To install, type this at the command line:
 ```
 npm install can-boilerplate -g
 ```
 After that, you can generate a project any time with:
 ```
-canboilerplate
+canbp
 ```
 That's it. ☺︎
 
@@ -25,23 +25,26 @@ That's it. ☺︎
 * A project scaffolder with optional libraries:
   * [jQuery](http://jquery.com/) or [Zepto](http://jquery.com/) or others
   * [Bootstrap](http://getbootstrap.com/) or [Foundation](http://foundation.zurb.com/) or [Pure](http://purecss.io/)
-  * [3L](http://mateuszkocz.github.io/3l/)
+  * [jQuery++](http://jquerypp.com/)
   * [jQuery UI](http://jqueryui.com/)
-* [CanJS](http://canjs.com/)+[can-compile](https://github.com/daffl/can-compile), [RequireJS](http://requirejs.org/)+[almond](https://github.com/jrburke/almond), [LESS](http://lesscss.org/)
+* [CanJS](http://canjs.com/)+[can-compile](https://github.com/daffl/can-compile), [RequireJS](http://requirejs.org/)+[almond](https://github.com/jrburke/almond), [Less.js](http://lesscss.org/)+[Myth](http://myth.io/)
+* [Mocha](http://visionmedia.github.io/mocha/) + [Chai](http://chaijs.com/) + [FuncUnit](http://funcunit.com/) project testing
 * js/css compiler+minifier and gif/png/jpg/svg optimizer
 * A simple webserver that enables the use of `can.route.pushstate` on all relative 404 routes
 * [Grunt](http://gruntjs.com/) + [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.7` add support for [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
-* `0.8` add support for [Mocha](http://visionmedia.github.io/mocha/) and [FuncUnit](http://funcunit.com/)
+* `0.7.x` speed up loading of tool dependencies somehow
+* `0.7.x` add source map support to [grunt-myth](https://github.com/sindresorhus/grunt-myth)
+* `0.8` add [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
 * `0.9` possibly add hooks to [Yeoman](http://yeoman.io/)
 * `1.0` test on Windows
+* `1.1` possibly add [StealJS](http://javascriptmvc.com/docs/stealjs.html)
 
 ---
 
 ### "Installing" a Project
-Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/` to install the build tools and all client-side dependencies. Optionally, you can manually run `npm install` and `bower install` within `client/`.
+Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/` to install the build tools and all client-side dependencies. Optionally, you can manually run `npm install` within `client/`.
 
 ### Compiling a Project
 Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/tools/`. Optionally, you can manually run `grunt compile` within `client/` to skip all menus and prompts.
@@ -78,6 +81,10 @@ Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/to
 │   │   ├── models/
 │   │   │   └── example/
 │   │   │       └── example.js
+│   │   ├── test/
+│   │   │   ├── func.js
+│   │   │   ├── test.html
+│   │   │   └── unit.js
 │   │   ├── vendors/
 │   │   ├── index.html
 │   │   ├── index.production.html
@@ -99,7 +106,7 @@ Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/to
 `client/private/vendors/` (bower components) and `client/node_modules/` are gitignore'd. They're only added when the project is [installed](#installing-a-project).
 
 `client/private/media/*/` stores media referenced from your CSS. Folders included in production build.  
-`client/private/media/*-embedded/` stores media compiled into the production CSS file (using LESS' `data-uri()`). Folders *excluded* in production build.
+`client/private/media/*-embedded/` stores media compiled into the production CSS file (using Less' `data-uri()`). Folders *excluded* in production build.
 
 *Any* empty folders will be excluded from the production build.  
 *Any* empty files in any `media/` folder will be excluded from the production build.
@@ -124,18 +131,20 @@ In `client/private/index.html`, update the `<data>` tag.
 
 6. **How can I upgrade an existing project with a new version of the tools?**
   1. Generate a temporary project in another directory.
-  2. By copying & pasting from the temporary project, replace the following in your project:
+  2. Make sure that you have not made any changes to the following in *your* project:
     * client/Gruntfile.js
     * client/package.json
     * client/tools/
+  3. Replace the above mentioned files with those from the temporary project.
 
 
 ## Release History
+* 0.7.0 added Mocha, FuncUnit and Myth, removed [3L](http://mateuszkocz.github.io/3l/), restructured tools
 * 0.6.2 suggests only available ports to webserver
 * 0.6.1 added [Travis CI](https://travis-ci.org/) support to projects, cleanup
-* 0.6.0 now an npm package with a scaffolder, new folder structure again
+* 0.6.0 now an NPM package with a scaffolder, new folder structure again
 * 0.5.0 added Bower, new folder structure, merged tools
-* 0.4.5 tools cleanup, added support for JavaScript and LESS source maps (buggy)
+* 0.4.5 tools cleanup, added support for JavaScript and Less source maps (buggy)
 * 0.4.4 tools and url-helpers cleanup
 * 0.4.3 `appRoot` cleanup and Zepto support
 * 0.4.2 gruntfiles cleanup
@@ -146,3 +155,7 @@ In `client/private/index.html`, update the `<data>` tag.
 * 0.2.1 updated to [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.2
 * 0.2.0 included [grunt-cleanempty](https://github.com/stevenvachon/grunt-cleanempty) v0.1
 * 0.1.0 initial "feedback" release
+
+---
+
+[![Analytics](https://ga-beacon.appspot.com/UA-3614308-4/stevenvachon/can-boilerplate)](https://github.com/igrigorik/ga-beacon "Google Analytics") [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/stevenvachon/can-boilerplate/trend.png)](https://bitdeli.com/free "Bitdeli Badge")

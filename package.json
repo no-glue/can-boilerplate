@@ -1,7 +1,7 @@
 {
   "name": "can-boilerplate",
   "description": "Get a head start on your CanJS project.",
-  "version": "0.6.2",
+  "version": "0.7.0",
   "homepage": "https://github.com/stevenvachon/can-boilerplate",
   "author": {
     "name": "Steven Vachon",
@@ -17,14 +17,15 @@
   },
   "main": "lib",
   "bin": {
+    "canbp": "bin/index",
     "canboilerplate": "bin/index"
   },
   "dependencies": {
-    "cli-clear": ">=0.1",
-    "cli-table": ">=0.2",
     "grunt": "~0.4",
+    "grunt-content": "~0.2",
     "grunt-contrib-copy": "~0.5",
-    "grunt-prompt": "~1.0",
+    "grunt-log-headers": "~0.1",
+    "grunt-prompt": "~1.1",
     "grunt-template": "~0.2"
   },
   "devDependencies": {},

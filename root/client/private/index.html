@@ -14,27 +14,28 @@
 		<data id="appRoot" value="/"></data>
 		
 		<script>
-		var preloader = setTimeout(function()
-		{
-			document.querySelector(".preloader").innerHTML = "Loading…";
-		}, 4000);
-		
-		var appRoot = document.querySelector("#appRoot").getAttribute("value");
-		
-		var less = {
-			relativeUrls: false,
-			rootpath: appRoot
-		};
-		
-		function require_dev(d,e){function f(){if(++g<d.length)a:{var c=j+d[g],h=function(){f()},a=c.match(/\.([0-9a-z]+)(?:[\?#]|$)/i),b;if(a){a=a[1];switch(a){case "css":case "less":b=document.createElement("link");b.setAttribute("rel","stylesheet/"+a);b.setAttribute("href",c);a=document.createElement("img");a.onerror=function(){h.apply(b);delete this.onerror};a.src=c;break;case "js":b=document.createElement("script");b.setAttribute("src",c);b.onload=function(){h.apply(this);delete this.onload};break;default:console.error('Unsupported file extension "'+
-		a+'": '+c);break a}document.body.appendChild(b)}else console.error("Missing file extension: "+c)}else e&&e()}var j=appRoot,g=-1;f()};
-		
-		require_dev(["init.less","<%= less %>","<%= require %>"], function()
-		{
-			define("templates", function(){});
-			require.config({baseUrl:appRoot});
-			require_dev(["init.js"]);
-		});
+			var preloader = setTimeout( function()
+			{
+				document.querySelector(".preloader").innerHTML = "Loading…";
+			}, 4000);
+			
+			var appRoot = document.querySelector("#appRoot").getAttribute("value");
+			
+			var less = {
+				relativeUrls: false,
+				rootpath: appRoot,
+				postProcessor: function(styles){ return myth(styles) }
+			};
+			
+			function require_dev(d,e){function f(){if(++g<d.length)a:{var c=j+d[g],h=function(){f()},a=c.match(/\.([0-9a-z]+)(?:[\?#]|$)/i),b;if(a){a=a[1];switch(a){case "css":case "less":b=document.createElement("link");b.setAttribute("rel","stylesheet/"+a);b.setAttribute("href",c);a=document.createElement("img");a.onerror=function(){h.apply(b);delete this.onerror};a.src=c;break;case "js":b=document.createElement("script");b.setAttribute("src",c);b.onload=function(){h.apply(this);delete this.onload};break;default:console.error('Unsupported file extension "'+
+			a+'": '+c);break a}document.body.appendChild(b)}else console.error("Missing file extension: "+c)}else e&&e()}var j=appRoot,g=-1;f()};
+			
+			require_dev(["init.less","<%= myth %>","<%= less %>","<%= require %>"], function()
+			{
+				define("templates", function(){});
+				require.config({baseUrl:appRoot});
+				require_dev(["init.js"]);
+			});
 		</script>
 	</body>
 </html>

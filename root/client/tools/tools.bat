@@ -1,3 +1,3 @@
 @echo off
 
-node lib/index.js tools
+node lib/index.js
