@@ -6,7 +6,7 @@ var client = require("path").resolve(__dirname+"/../../");
 
 function init(endGruntTask)
 {
-	clearTimeout(noParentGruntTask);
+	clearImmediate(noParentGruntTask);
 	
 	// If parent Grunt task, install everything
 	var hasBowerComponents = (endGruntTask) ? false : fs.existsSync(client+"/private/vendors/");
@@ -28,19 +28,10 @@ function init(endGruntTask)
 	}
 	else
 	{
+		// Installs NPM and Bower packages
 		npmInstall( function()
 		{
-			if (!hasBowerComponents)
-			{
-				bowerInstall( function()
-				{
-					finished(endGruntTask);
-				});
-			}
-			else
-			{
-				finished(endGruntTask);
-			}
+			finished(endGruntTask);
 		});
 	}
 	
@@ -51,10 +42,12 @@ function init(endGruntTask)
 
 function bowerInstall(callback)
 {
-	// Use Bower API instead of CLI so that it doesn't need to be installed globally
-	var bower = require("can-boilerplate-utils").bower();
-	
-	bower.install(callback, {cwd:client});
+	require("child_process").spawn("npm", ["run-script","install"], {cwd:client, stdio:"inherit"}).on("exit", function(code)
+	{
+		this.removeAllListeners();
+		
+		callback();
+	});
 }
 
 
@@ -83,7 +76,7 @@ function finished(endGruntTask)
 
 function npmInstall(callback)
 {
-	// NPM comes installed globally with Node, so it's "safe" to use CLI
+	// Also runs "bower install" from package.json
 	require("child_process").spawn("npm", ["install"], {cwd:client, stdio:"inherit"}).on("exit", function(code)
 	{
 		this.removeAllListeners();
@@ -95,7 +88,7 @@ function npmInstall(callback)
 
 
 // Gets cancelled in init() when called from parent Grunt task
-var noParentGruntTask = setTimeout( function()
+var noParentGruntTask = setImmediate( function()
 {
 	init();
 });

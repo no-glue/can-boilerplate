@@ -18,7 +18,8 @@
   "main": "lib",
   "bin": {
     "canbp": "bin/index",
-    "canboilerplate": "bin/index"
+    "canboilerplate": "bin/index",
+    "can-boilerplate": "bin/index"
   },
   "dependencies": {
     "grunt": "~0.4",

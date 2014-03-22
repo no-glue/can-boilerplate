@@ -19,14 +19,6 @@ module.exports = function(grunt)
 		
 		
 		
-		bower:
-		{
-			"install": { command:"install" },
-			"update":  { command:"update" }
-		},
-		
-		
-		
 		clean:
 		{
 			"deps":
@@ -90,8 +82,8 @@ module.exports = function(grunt)
 		
 		shell:
 		{
-			"npm-install":   { command:"npm install" },
-			"npm-update":    { command:"npm update" }
+			"deps-install":   { command:"npm install" },	// "bower install" ran from package.json
+			"deps-update":    { command:"npm update" }		// "bower update" ran from package.json
 		}
 	});
 	
@@ -99,8 +91,8 @@ module.exports = function(grunt)
 	
 	grunt.registerTask("deps", ["content:deps","prompt:deps"]);
 	
-	grunt.registerTask("deps-install", ["clean:deps","shell:npm-install","bower:install"]);
-	grunt.registerTask("deps-update",  ["shell:npm-update","bower:update"]);
+	grunt.registerTask("deps-install", ["clean:deps","shell:deps-install"]);
+	grunt.registerTask("deps-update",  ["shell:deps-update"]);
 	
 	
 	

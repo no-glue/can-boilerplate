@@ -1,6 +1,6 @@
 module.exports = function(grunt)
 {
-	var util = require("can-boilerplate-utils").server();
+	var util = require("can-boilerplate-utils").server;
 	
 	
 	
