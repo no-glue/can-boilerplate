@@ -6,9 +6,9 @@ module.exports = function(grunt)
 		{
 			sections:
 			{
-				"deps":
+				"docs":
 				{
-					action: ""
+					docsFolder: "docs"
 				}
 			}
 		},
@@ -21,23 +21,23 @@ module.exports = function(grunt)
 		
 		clean:
 		{
-			"deps":
+			"docs":
 			{
-				src:  ["<%= cfg.devFolder %>/vendors/", "node_modules/"]
+				src:  ["<%= cfg.sections.docs.docsFolder %>"]
 			}
 		},
 		
 		
 		
-		content: 
+		/*content: 
 		{
-			"deps":
+			"docs":
 			{
 				table:
 				[
 					[
 						[
-							 "DEPENDENCY MANAGEMENT".underline+" <%= cfg.title_sub %>"
+							 "DOCUMENTATION GENERATOR".underline+" <%= cfg.title_sub %>"
 							+"\n\nUpdate & install existing and missing components for Node.js and"
 							+"\nBower."
 							+"\n\nA reinstall is available for making large changes to dependencies,"
@@ -46,13 +46,32 @@ module.exports = function(grunt)
 					]
 				]
 			}
+		},*/
+		
+		
+		
+		// DocumentJS
+		generate:
+		{
+			"docs":
+			{
+				files:
+				[
+					{
+						cwd: "<%= cfg.devFolder %>",
+						src: ["**/*.js", "!test/**/*.js", "!vendors/**/*.js"],
+						dest: "<%= cfg.sections.docs.docsFolder %>",
+						expand: true
+					}
+				]
+			}
 		},
 		
 		
 		
-		prompt:
+		/*prompt:
 		{
-			"deps":
+			"docs":
 			{
 				options:
 				{
@@ -76,23 +95,12 @@ module.exports = function(grunt)
 					}
 				}
 			}
-		},
-		
-		
-		
-		shell:
-		{
-			"deps-install":   { command:"npm install" },	// "bower install" ran from package.json
-			"deps-update":    { command:"npm update" }		// "bower update" ran from package.json
-		}
+		}*/
 	});
 	
 	
 	
-	grunt.registerTask("deps-w-menu", "*", ["content:deps","prompt:deps"]);
-	
-	grunt.registerTask("deps-install", "Reinstall all Node.js & Bower components.", ["clean:deps","shell:deps-install"]);
-	grunt.registerTask("deps-update",  "Update & install missing components for Node.js and Bower.", ["shell:deps-update"]);
+	grunt.registerTask("docs", "Generate documentation.", ["clean:docs","generate:docs"]);
 	
 	
 	

@@ -1,35 +1,13 @@
 describe("Functional tests", function()
 {
-	/*beforeEach( function()
+	before(function(done){ F.open("/",done) });
+	after(function(){ F.win.close() });
+	
+	
+	
+	it("should find app entry point", function(done)
 	{
-		this.wombat = new Wombat();
+		F("app-container").exists(function(){ done() });
 	});
-	
-	
-	
-	afterEach( function()
-	{
-		delete this.wombat;
-	});*/
-	
-	
-	
-	it("should find mocha test area", function(done)
-	{
-		expect( F("#mocha").attr("id") ).to.equal("mocha");
-		
-		done();
-	});
-	
-	
-	
-	/*describe("#eat", function()
-	{
-		it("should throw if no food passed", function()
-		{
-			this.wombat = new Wombat({ name: "Matt" });
-			expect(this.wombat).property("name", "Matt");
-		});
-	});*/
 
 });

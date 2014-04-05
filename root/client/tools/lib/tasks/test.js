@@ -78,6 +78,7 @@ module.exports = function(grunt)
 			options:
 			{
 				bail: true,
+				log: true,
 				logErrors: true,
 				reporter: "Spec",
 				run: true
@@ -132,12 +133,12 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.registerTask("test", ["test-dev","test-dist"]);
+	grunt.registerTask("test", "Test both development & distribution environments.", ["test-dev","test-dist"]);
 	
-	grunt.registerTask("test-dev",  ["connect:test-dev","mocha:test-dev"]);
-	grunt.registerTask("test-dist", ["connect:test-dist","compile","copy:test-dest","mocha:test-dist","clean:compile-pre"]);
+	grunt.registerTask("test-dev",  "Test development environment.",                  ["connect:test-dev","mocha:test-dev"]);
+	grunt.registerTask("test-dist", "Test distribution environment (auto-compiles).", ["connect:test-dist","compile","copy:test-dest","mocha:test-dist","clean:compile-pre"]);
 	
-	grunt.registerTask("test-w-menu", ["content:test", "prompt:test"]);
+	grunt.registerTask("test-w-menu", "*", ["content:test","prompt:test"]);
 	
 	
 	

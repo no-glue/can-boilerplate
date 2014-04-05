@@ -7,9 +7,6 @@ module.exports = function(grunt)
 			title: "{%= title %} v{%= version %}",
 			title_sub: "(<%= cfg.title.toLowerCase() %>)",
 			
-			expressMode: grunt.cli.tasks.length,
-			helpMode: grunt.cli.options.help,
-			
 			devFolder: "private",
 			distFolder: "public",
 			
@@ -36,6 +33,7 @@ module.exports = function(grunt)
 			options:
 			{
 				clearBefore: true,
+				gruntLogHeader: false,
 				table:
 				{
 					colWidths: [72]
@@ -69,10 +67,10 @@ module.exports = function(grunt)
 								{ name:"Compile for production", value:"compile-w-menu" },
 								{ name:"Run tests", value:"test-w-menu" },
 								{ name:"Minify media", value:"media-w-menu" },
-								{ name:"Generate documentation (coming soon)", value:"docs" },
+								{ name:"Generate documentation", value:"docs" },
 								"---",
 								{ name:"Start a simple webserver", value:"server-w-menu" },
-								{ name:"Manage dependencies", value:"deps" },
+								{ name:"Manage dependencies", value:"deps-w-menu" },
 								"---",
 								{ name:"Exit", value:"exit" }
 							]
@@ -84,8 +82,6 @@ module.exports = function(grunt)
 						
 						if (action != "exit")
 						{
-							loadRemainingTasks();
-							
 							grunt.task.run(action);
 						}
 					}
@@ -98,50 +94,20 @@ module.exports = function(grunt)
 	
 	require("grunt-config-merge")(grunt);
 	require("grunt-log-headers")(grunt);
-	
-	grunt.loadNpmTasks("grunt-content");
-	grunt.loadNpmTasks("grunt-prompt");
-	
-	
-	
-	// Not loaded immediately to speed up display of menu
-	function loadRemainingTasks()
+	require("jit-grunt")(grunt,
 	{
-		grunt.loadNpmTasks("can-boilerplate-utils");
-		grunt.loadNpmTasks("can-compile");
-		grunt.loadNpmTasks("grunt-cleanempty");
-		grunt.loadNpmTasks("grunt-config");
-		grunt.loadNpmTasks("grunt-contrib-clean");
-		grunt.loadNpmTasks("grunt-contrib-compress");
-		grunt.loadNpmTasks("grunt-contrib-connect");
-		grunt.loadNpmTasks("grunt-contrib-copy");
-		grunt.loadNpmTasks("grunt-contrib-cssmin");	// TODO: won't be required when contrib-less gets cleancssOptions
-		grunt.loadNpmTasks("grunt-contrib-imagemin");
-		grunt.loadNpmTasks("grunt-contrib-less");
-		grunt.loadNpmTasks("grunt-contrib-requirejs");
-		grunt.loadNpmTasks("grunt-contrib-uglify");
-		grunt.loadNpmTasks("grunt-include-replace");
-		grunt.loadNpmTasks("grunt-mocha");
-		grunt.loadNpmTasks("grunt-myth");
-		grunt.loadNpmTasks("grunt-svgmin");
-		
-		grunt.task.loadTasks("tools/lib/tasks");
-	}
+		cancompile: "can-compile",
+		generate:   "documentjs",
+		includereplace: "grunt-include-replace"
+	});
 	
-	
-	
-	// For command line use
-	if ( grunt.config("cfg.expressMode") || grunt.config("cfg.helpMode") )
-	{
-		loadRemainingTasks();
-		
-		// continues onto task specified at command line..
-	}
+	grunt.loadNpmTasks("can-boilerplate-utils");	// "findport" and "shell" tasks
+	grunt.loadTasks("tools/lib/tasks");
 	
 	
 	
 	// Other tasks ran from menu
-	grunt.registerTask("default", ["content:start","prompt:start"]);
+	grunt.registerTask("default", "*", ["content:start","prompt:start"]);
 	
 	
 	

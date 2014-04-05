@@ -108,10 +108,10 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.registerTask("media", ["imagemin:media","svgmin:media"]);
-	grunt.registerTask("media-backup", ["copy:media","media"]);
+	grunt.registerTask("media", "Minify media.", ["imagemin:media","svgmin:media"]);
+	grunt.registerTask("media-backup", "Minify media (with backup).", ["copy:media","media"]);
 	
-	grunt.registerTask("media-w-menu", ["content:media","prompt:media"]);
+	grunt.registerTask("media-w-menu", "*", ["content:media","prompt:media"]);
 	
 	
 	

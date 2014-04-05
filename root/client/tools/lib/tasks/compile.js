@@ -95,36 +95,6 @@ module.exports = function(grunt)
 		
 		
 		
-		config:
-		{
-			"compile-appRoot":
-			{
-				options:
-				{
-					variables:
-					{
-						"includereplace.compile.options.globals.appRoot": "<%= cfg.pkg.appData.appRoot %><%= includereplace.compile.options.globals.appRoot %>",
-						"less.compile.options.rootpath":                  "<%= cfg.pkg.appData.appRoot %><%= less.compile.options.rootpath %>"
-					}
-				}
-			},
-			"compile-sourceMaps":
-			{
-				options:
-				{
-					variables:
-					{
-						"less.compile.options.sourceMap":                 "<%= cfg.pkg.appData.generateSourceMaps %>",
-						"requirejs.compile.options.generateSourceMaps":   "<%= cfg.pkg.appData.generateSourceMaps %>",
-						"uglify.compile.options.sourceMap":               "<%= cfg.pkg.appData.generateSourceMaps %>",
-						"uglify.compile.options.sourceMapIncludeSources": "<%= cfg.pkg.appData.generateSourceMaps %>"
-					}
-				}
-			}
-		},
-		
-		
-		
 		content: 
 		{
 			"compile":
@@ -204,7 +174,7 @@ module.exports = function(grunt)
 				{
 					globals:
 					{
-						appRoot:     "",	// gets prefixed in prompt:compile
+						appRoot:     "<%= cfg.pkg.appData.appRoot %>",
 						version:     "<%= cfg.pkg.version %>"
 					}
 				},
@@ -225,9 +195,9 @@ module.exports = function(grunt)
 					compress: true,
 					//strictMath: true,	// can't compile bootstrap 3.0.3 when true
 					
-					rootpath: "",	// gets prefixed in prompt:compile
+					rootpath: "<%= cfg.pkg.appData.appRoot %>",
 					
-					sourceMap: true,	// gets changed in prompt:compile
+					sourceMap: "<%= cfg.pkg.appData.generateSourceMaps %>",
 					sourceMapFilename: "<%= cfg.distFolder %>/app.css.map",
 					sourceMapURL: "<%= cfg.pkg.appData.appRoot %>app.css.map",
 					//sourceMapBasepath: "<%= cfg.pkg.appData.appRoot %>",	// DOES NOTHING in contrib-less v0.9.0
@@ -322,7 +292,7 @@ module.exports = function(grunt)
 				options:
 				{
 					optimize: "none",
-					generateSourceMaps: true,	// gets changed in prompt:compile
+					generateSourceMaps: "<%= cfg.pkg.appData.generateSourceMaps %>",
 					
 					baseUrl: "<%= cfg.devFolder %>",{% if (loaderShim) { %}
 					name: "{%= loaderShim.substr(0, loaderShim.lastIndexOf('.js')) %}",{% } %}
@@ -347,7 +317,7 @@ module.exports = function(grunt)
 				options:
 				{
 					banner: "/* v<%= cfg.pkg.version %> (<%= grunt.template.today('mmm-d-yyyy') %>) */\n",
-					sourceMap: true,	// gets changed in prompt:compile
+					sourceMap: "<%= cfg.pkg.appData.generateSourceMaps %>",
 					sourceMapIn:   "<%= cfg.distFolder %>/app.js.map",	// input from requirejs
 					sourceMapName: "<%= cfg.distFolder %>/app.js.map",	// output
 					sourceMapIncludeSources: true
@@ -360,10 +330,8 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.registerTask("compile",
+	grunt.registerTask("compile", "Compile a production build.",
 	[
-		"config:compile-appRoot",		// apply defaults (or answers from prompt)
-		"config:compile-sourceMaps",	// apply defaults (or answers from prompt)
 		"clean:compile-pre",			// empty dist
 		"copy:compile",					// copy assets to dist
 		"cleanempty:compile-assets",	// remove empty assets
@@ -382,7 +350,7 @@ module.exports = function(grunt)
 		"compress:compile"				// gzip css and js
 	]);
 	
-	grunt.registerTask("compile-w-menu", ["content:compile","prompt:compile","compile"]);
+	grunt.registerTask("compile-w-menu", "*", ["content:compile","prompt:compile","compile"]);
 	
 	
 	

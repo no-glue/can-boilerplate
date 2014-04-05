@@ -1,4 +1,4 @@
-# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.png)](http://badge.fury.io/js/can-boilerplate) [![Build Status](https://secure.travis-ci.org/stevenvachon/can-boilerplate.png)](http://travis-ci.org/stevenvachon/can-boilerplate) [![Coverage Status](https://coveralls.io/repos/stevenvachon/can-boilerplate/badge.png)](https://coveralls.io/r/stevenvachon/can-boilerplate) [![Dependency Status](https://david-dm.org/stevenvachon/can-boilerplate.png)](https://david-dm.org/stevenvachon/can-boilerplate)
+# can-boilerplate [![NPM Version](http://badge.fury.io/js/can-boilerplate.svg)](http://badge.fury.io/js/can-boilerplate) [![Build Status](https://secure.travis-ci.org/stevenvachon/can-boilerplate.svg)](http://travis-ci.org/stevenvachon/can-boilerplate) [![Dependency Status](https://david-dm.org/stevenvachon/can-boilerplate.svg)](https://david-dm.org/stevenvachon/can-boilerplate)
 
 > Get a head start on your [CanJS](http://canjs.com/) v2.x project.
 
@@ -29,17 +29,18 @@ That's it. ☺︎
   * [jQuery UI](http://jqueryui.com/)
 * [CanJS](http://canjs.com/)+[can-compile](https://github.com/daffl/can-compile), [RequireJS](http://requirejs.org/)+[almond](https://github.com/jrburke/almond), [Less.js](http://lesscss.org/)+[Myth](http://myth.io/)
 * [Mocha](http://visionmedia.github.io/mocha/) + [Chai](http://chaijs.com/) + [FuncUnit](http://funcunit.com/) project testing
+* [DocumentJS](https://github.com/bitovi/documentjs)
 * js/css compiler+minifier and gif/png/jpg/svg optimizer
 * A simple webserver that enables the use of `can.route.pushstate` on all relative 404 routes
 * [Grunt](http://gruntjs.com/) + [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.7.x` speed up loading of tool dependencies somehow
-* `0.7.x` add source map support to [grunt-myth](https://github.com/sindresorhus/grunt-myth)
-* `0.8` add [DocumentJS](https://github.com/bitovi/documentjs) (and [YUIDoc](http://yui.github.io/yuidoc/)?)
+* `0.8.x` add [YUIDoc](http://yui.github.io/yuidoc/)?
+* `0.8.x` add a lint to customize formatting
 * `0.9` possibly add hooks to [Yeoman](http://yeoman.io/)
 * `1.0` test on Windows
 * `1.1` possibly add [StealJS](http://javascriptmvc.com/docs/stealjs.html)
+* `whenever` fix source maps
 
 ---
 
@@ -106,7 +107,7 @@ Run either the `*.bat` (Windows) or `*.command` (Mac) file in `client/private/to
 `client/private/vendors/` (bower components) and `client/node_modules/` are gitignore'd. They're only added when the project is [installed](#installing-a-project).
 
 `client/private/media/*/` stores media referenced from your CSS. Folders included in production build.  
-`client/private/media/*-embedded/` stores media compiled into the production CSS file (using Less' `data-uri()`). Folders *excluded* in production build.
+`client/private/media/*-embedded/` stores media compiled into the production CSS file (using Less' [`data-uri()`](http://lesscss.org/functions/#misc-functions-data-uri)). Folders *excluded* in production build.
 
 *Any* empty folders will be excluded from the production build.  
 *Any* empty files in any `media/` folder will be excluded from the production build.
@@ -139,6 +140,7 @@ In `client/private/index.html`, update the `<data>` tag.
 
 
 ## Release History
+* 0.8.0 added [DocumentJS](https://github.com/bitovi/documentjs), sped up dependency loading, Myth source maps, app entry point test, cleanup
 * 0.7.0 added Mocha, FuncUnit and Myth, removed [3L](http://mateuszkocz.github.io/3l/), restructured tools
 * 0.6.2 suggests only available ports to webserver
 * 0.6.1 added [Travis CI](https://travis-ci.org/) support to projects, cleanup

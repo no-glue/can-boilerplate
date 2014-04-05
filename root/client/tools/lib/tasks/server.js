@@ -116,9 +116,9 @@ module.exports = function(grunt)
 	
 	
 	
-	grunt.registerTask("server", ["findport","connect:server"]);
+	grunt.registerTask("server", "Start a simple webserver.", ["findport","connect:server"]);
 	
-	grunt.registerTask("server-w-menu", ["findport","content:server","prompt:server","connect:server"]);
+	grunt.registerTask("server-w-menu", "*", ["findport","content:server","prompt:server","connect:server"]);
 	
 	
 	
