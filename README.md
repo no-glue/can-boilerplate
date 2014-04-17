@@ -10,7 +10,7 @@
 
 ## Getting Started
 
-This plugin requires [Node.js](http://nodejs.org/) `~0.10`. Temporarily, it also requires [Xcode](https://developer.apple.com/xcode/) and a **Unix-based OS**.  
+This plugin requires [Node.js](http://nodejs.org/) `~0.10`, [Xcode](https://developer.apple.com/xcode/) and a Mac.  
 To install, type this at the command line:
 ```
 npm install can-boilerplate -g
@@ -29,18 +29,19 @@ That's it. ☺︎
   * [jQuery UI](http://jqueryui.com/)
 * [CanJS](http://canjs.com/)+[can-compile](https://github.com/daffl/can-compile), [RequireJS](http://requirejs.org/)+[almond](https://github.com/jrburke/almond), [Less.js](http://lesscss.org/)+[Myth](http://myth.io/)
 * [Mocha](http://visionmedia.github.io/mocha/) + [Chai](http://chaijs.com/) + [FuncUnit](http://funcunit.com/) project testing
-* [DocumentJS](https://github.com/bitovi/documentjs)
+* [YUIDoc](http://yui.github.io/yuidoc/)
 * js/css compiler+minifier and gif/png/jpg/svg optimizer
 * A simple webserver that enables the use of `can.route.pushstate` on all relative 404 routes
 * [Grunt](http://gruntjs.com/) + [Bower](http://bower.io/) (no need to install them globally)
 
 ### Roadmap Features:
-* `0.8.x` add [YUIDoc](http://yui.github.io/yuidoc/)?
+* `0.8` add [YUIDoc](http://yui.github.io/yuidoc/)
 * `0.8.x` add a lint to customize formatting
 * `0.9` possibly add hooks to [Yeoman](http://yeoman.io/)
 * `1.0` test on Windows
-* `1.1` possibly add [StealJS](http://javascriptmvc.com/docs/stealjs.html)
-* `whenever` fix source maps
+* `1.1` possibly add [StealJS](http://javascriptmvc.com/docs/stealjs.html), [SystemJS](https://github.com/systemjs/systemjs) and [transpile](https://github.com/bitovi/transpile)
+* `when possible` add [DocumentJS](https://github.com/bitovi/documentjs)
+* `when possible` fix source maps
 
 ---
 

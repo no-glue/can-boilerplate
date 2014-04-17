@@ -15,6 +15,12 @@
   "bugs": {
     "url": "https://github.com/stevenvachon/can-boilerplate/issues"
   },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/mit-license.php"
+    }
+  ],
   "main": "lib",
   "bin": {
     "canbp": "bin/index",
@@ -23,17 +29,20 @@
   },
   "dependencies": {
     "grunt": "~0.4",
-    "grunt-content": "~0.2",
+    "grunt-content": "^1.0",
     "grunt-contrib-copy": "~0.5",
-    "grunt-log-headers": "~0.1",
-    "grunt-prompt": "~1.1",
+    "grunt-log-headers": "^1.0",
+    "grunt-prompt": "^1.1",
     "grunt-template": "~0.2"
   },
-  "devDependencies": {},
-  "optionalDependencies": {},
   "engines": {
-    "node": ">= 0.10.0"
+    "node": ">= 0.10"
   },
+  "files": [
+    "bin",
+    "lib",
+    "root"
+  ],
   "keywords": [
     "canjs",
     "donejs",
